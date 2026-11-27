@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RentRide — Browse Luxury, SUV, and Sedan vehicles, plan trips, locate hubs, and estimate fares.">
+  <title>RentRide | Home — Car Categories &amp; Fleet</title>
+  <link rel="stylesheet" href="home.css">
+  <script src="home.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Shared Top Navigation Header -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <div class="header-left">
+        <a href="home.html" class="brand-logo" aria-label="RentRide Home">
+          <svg class="brand-icon" viewBox="0 0 44 26" width="36" height="22" aria-hidden="true">
+            <line x1="2" y1="9" x2="12" y2="9" stroke="#0f2742" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="0" y1="14" x2="9" y2="14" stroke="#0d57d9" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="4" y1="19" x2="11" y2="19" stroke="#0f2742" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13 15 L17 7.5 C18 6 19.6 5 21.5 5 L31 5 C32.8 5 34.4 6 35.4 7.5 L39.5 13 L41.5 14 C42.4 14.5 43 15.4 43 16.5 L43 18.5 C43 19.3 42.3 20 41.5 20 L38.5 20 A3.5 3.5 0 0 1 31.5 20 L23.5 20 A3.5 3.5 0 0 1 16.5 20 L14 20 C13.2 20 12.5 19.3 12.5 18.5 L12.5 16.2 C12.5 15.7 12.7 15.3 13 15 Z" fill="#0f2742"/>
+            <path d="M18.5 12.5 L20.8 7.8 L26.5 7.8 L26.5 12.5 Z" fill="#eef4fc"/>
+            <path d="M28.3 7.8 L32.8 7.8 L35.6 12.5 L28.3 12.5 Z" fill="#eef4fc"/>
+            <circle cx="20" cy="20" r="2.6" fill="#14b8a6"/>
+            <circle cx="35" cy="20" r="2.6" fill="#14b8a6"/>
+          </svg>
+          <span class="brand-wordmark">Rent<span class="brand-ride">Ride</span></span>
+        </a>
+        <span class="brand-divider" aria-hidden="true"></span>
+
+        <nav class="primary-nav" id="primaryNav" aria-label="Main navigation">
+          <ul class="nav-list">
+            <li><a class="nav-link is-active" href="home.html" aria-current="page">Home</a></li>
+            <li><a class="nav-link" href="search.html">Search</a></li>
+            <li><a class="nav-link" href="book.html">Book</a></li>
+            <li><a class="nav-link" href="#trip-planner">Trip Planner</a></li>
+            <li><a class="nav-link" href="#locations">Locations</a></li>
+            <li><a class="nav-link" href="#estimator">Estimator</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="header-controls">
+        <button
+          type="button"
+          class="icon-btn"
+          id="favDrawerBtn"
+          aria-label="Open Favourite Rides and Favourite Cars"
+          aria-controls="favDrawer"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="icon-badge" id="favCountBadge">0</span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="accountModalBtn"
+          aria-label="View registered account profile"
+          aria-controls="accountModal"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span class="account-dot" id="accountStatusDot" hidden></span>
+        </button>
+
+        <a href="book.html" class="btn btn-book-header">BOOK</a>
+
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-expanded="false"
+          aria-controls="primaryNav"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="hero-heading">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1 id="hero-heading" class="hero-title">
+            Welcome to a reals sewend your car home
+          </h1>
+          <div class="hero-actions">
+            <a href="#categories" class="btn btn-primary">Learn More</a>
+          </div>
+        </div>
+
+        <div class="hero-media">
+          <img
+            src="hero-car.jpg"
+            alt="Sleek dark navy modern sedan car"
+            class="hero-car-image"
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Car Categories & Cars Showcase (Step 1) -->
+    <section class="section-block" id="categories" aria-labelledby="categories-heading">
+      <div class="container">
+        <div class="section-header-row">
+          <div>
+            <span class="section-eyebrow">Step 1 &bull; Browse Fleet</span>
+            <h2 id="categories-heading" class="section-title">Car Categories</h2>
+            <p class="section-subtitle">
+              Choose from Luxury, SUV, or Sedan models. Save favourites or select a car to search dates and book.
+            </p>
+          </div>
+
+          <div class="filter-pills" role="group" aria-label="Filter showcase by category">
+            <button type="button" class="filter-pill is-active" data-category="all" aria-pressed="true">All Categories</button>
+            <button type="button" class="filter-pill" data-category="Luxury" aria-pressed="false">Luxury</button>
+            <button type="button" class="filter-pill" data-category="SUV" aria-pressed="false">SUV</button>
+            <button type="button" class="filter-pill" data-category="Sedan" aria-pressed="false">Sedan</button>
+          </div>
+        </div>
+
+        <div id="categoriesContainer" class="categories-stack"></div>
+      </div>
+    </section>
+
+    <!-- Travel Tools: Trip Planner, Locations, Estimator -->
+    <section class="section-block section-alt" aria-labelledby="tools-heading">
+      <div class="container">
+        <div class="section-heading-center">
+          <span class="section-eyebrow">Plan Your Journey</span>
+          <h2 id="tools-heading" class="section-title">Trip Planner, Locations &amp; Estimator</h2>
+          <p class="section-subtitle">
+            Pick a hub, review popular routes, or calculate estimated trip rental and fuel costs before booking.
+          </p>
+        </div>
+
+        <div class="tools-grid">
+          <article class="tool-card" id="trip-planner">
+            <div class="tool-icon" aria-hidden="true">01</div>
+            <h3 class="tool-title">Trip Planner</h3>
+            <p class="tool-desc">
+              Map inter-city drives and choose the best vehicle class for city streets, motorways, or northern highways.
+            </p>
+            <ul class="tool-list">
+              <li>Islamabad &rarr; Murree / Naran scenic routes</li>
+              <li>Lahore &rarr; Islamabad M-2 Motorway guide</li>
+              <li>Karachi Coastal &amp; Clifton Executive transfers</li>
+            </ul>
+            <a href="search.html" class="tool-link" data-prefill-city="Islamabad">Search from Islamabad Hub &rarr;</a>
+          </article>
+
+          <article class="tool-card" id="locations">
+            <div class="tool-icon" aria-hidden="true">02</div>
+            <h3 class="tool-title">Locations</h3>
+            <p class="tool-desc">
+              Select a pickup hub below to prefill your search on the Search page.
+            </p>
+            <div class="hub-buttons" role="group" aria-label="Quick select pickup hub">
+              <button type="button" class="hub-chip" data-hub="Islamabad">Islamabad</button>
+              <button type="button" class="hub-chip" data-hub="Lahore">Lahore</button>
+              <button type="button" class="hub-chip" data-hub="Karachi">Karachi</button>
+              <button type="button" class="hub-chip" data-hub="Rawalpindi">Rawalpindi</button>
+              <button type="button" class="hub-chip" data-hub="Peshawar">Peshawar</button>
+            </div>
+            <p id="hubSelectedStatus" class="hub-status" aria-live="polite"></p>
+            <a href="search.html" class="tool-link">Go to Search Page &rarr;</a>
+          </article>
+
+          <article class="tool-card" id="estimator">
+            <div class="tool-icon" aria-hidden="true">03</div>
+            <h3 class="tool-title">Estimator</h3>
+            <p class="tool-desc">
+              Estimate your total trip budget based on rental duration, distance, and selected vehicle rate.
+            </p>
+            <form id="fareEstimatorForm" class="mini-estimator" novalidate>
+              <div class="estimator-row">
+                <div class="form-field">
+                  <label for="estDays" class="form-label-sm">Days</label>
+                  <input type="number" id="estDays" class="form-control form-control-sm" min="1" max="60" value="3">
+                </div>
+                <div class="form-field">
+                  <label for="estDistance" class="form-label-sm">Distance (km)</label>
+                  <input type="number" id="estDistance" class="form-control form-control-sm" min="10" max="5000" value="240">
+                </div>
+              </div>
+              <div class="estimator-result" id="estimatorResult" aria-live="polite">
+                Estimated Total: <strong>$194</strong>
+              </div>
+            </form>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Deep Navy Footer -->
+  <footer class="site-footer" id="support">
+    <div class="container footer-grid">
+      <div class="footer-brand-col">
+        <a href="home.html" class="footer-wordmark" aria-label="RentRide Home">
+          <span class="brand-rent-light">Rent</span><span class="brand-ride-footer">Ride</span>
+        </a>
+        <p class="footer-tagline">Book Smarter – Travel Better.</p>
+      </div>
+
+      <div class="footer-nav-columns">
+        <div class="footer-nav-col">
+          <h3 class="footer-col-heading">QUICK LINKS</h3>
+          <ul class="footer-links">
+            <li><a href="home.html">Home</a></li>
+            <li><a href="search.html">Search Cars</a></li>
+            <li><a href="book.html">Book Now</a></li>
+            <li><a href="#categories">Car Categories</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <h3 class="footer-col-heading">SUPPORT</h3>
+          <ul class="footer-links">
+            <li><a href="#support">Support Centre</a></li>
+            <li><a href="mailto:support@rentride.example">Contact Us</a></li>
+            <li><a href="#trip-planner">Roadside Help</a></li>
+            <li><a href="book.html">Account Registration</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <h3 class="footer-col-heading">EXPLORE</h3>
+          <ul class="footer-links">
+            <li><a href="#trip-planner">Trip Planner</a></li>
+            <li><a href="#locations">Pickup Hubs</a></li>
+            <li><a href="#estimator">Fare Estimator</a></li>
+            <li><a href="search.html">Filter Fleet</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; <span id="currentYear">2026</span> RentRide Mobility. All rights reserved.</p>
+        <p>Support: <a href="mailto:support@rentride.example" class="footer-inline-link">support@rentride.example</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Backdrop -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+
+  <!-- Favourites Drawer -->
+  <aside
+    class="fav-drawer"
+    id="favDrawer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="favDrawerTitle"
+    hidden
+  >
+    <div class="drawer-header">
+      <h2 id="favDrawerTitle" class="drawer-title">Favourite Rides &amp; Favourite Cars</h2>
+      <button type="button" class="drawer-close" id="closeFavDrawer" aria-label="Close Favourites drawer">&times;</button>
+    </div>
+
+    <div class="drawer-body">
+      <section class="drawer-section">
+        <div class="drawer-section-head">
+          <h3>Favourite Cars</h3>
+          <button type="button" class="text-btn" id="clearFavCarsBtn">Clear</button>
+        </div>
+        <div id="favCarsList" class="fav-list"></div>
+      </section>
+
+      <section class="drawer-section">
+        <div class="drawer-section-head">
+          <h3>Favourite Rides</h3>
+          <button type="button" class="text-btn" id="clearFavRidesBtn">Clear</button>
+        </div>
+        <div id="favRidesList" class="fav-list"></div>
+      </section>
+    </div>
+  </aside>
+
+  <!-- User Account Profile Modal -->
+  <div
+    class="account-modal"
+    id="accountModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="accountModalTitle"
+    hidden
+  >
+    <div class="account-modal-head">
+      <h2 id="accountModalTitle" class="drawer-title">Account Profile</h2>
+      <button type="button" class="drawer-close" id="closeAccountModal" aria-label="Close Account profile">&times;</button>
+    </div>
+    <div id="accountModalBody" class="account-modal-body"></div>
+  </div>
+</body>
+</html>
