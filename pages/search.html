@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RentRide — Select vehicle and dates, filter by Hatchback, Sedan, SUV, or Luxury, and book available cars.">
+  <title>RentRide | Select Vehicle &amp; Dates — Search &amp; Filters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="search.css">
+  <script src="search.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Global Dark Navy Header -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="../home.html" class="brand-logo" aria-label="RentRide Home">
+        <svg class="brand-icon" viewBox="0 0 44 28" width="38" height="24" fill="none" aria-hidden="true">
+          <path d="M5 17.5H3.5C2.67 17.5 2 16.83 2 16V14.2C2 13.5 2.45 12.88 3.12 12.66L6.5 11.5L10.8 6.4C11.55 5.5 12.66 5 13.83 5H27.4C28.75 5 30.02 5.66 30.8 6.76L34.5 12L39.6 13.2C40.99 13.53 42 14.77 42 16.2V17.5C42 18.33 41.33 19 40.5 19H37.5" stroke="#149688" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10.5 12H31.5" stroke="#149688" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M19 5.5V12" stroke="#149688" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12.5" cy="19" r="3.2" stroke="#149688" stroke-width="2.1"/>
+          <circle cx="33.5" cy="19" r="3.2" stroke="#149688" stroke-width="2.1"/>
+          <path d="M15.8 19H30.2" stroke="#149688" stroke-width="2.1" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-wordmark">Rent<span class="brand-ride">Ride</span></span>
+      </a>
+
+      <nav class="primary-nav" id="primaryNav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li>
+            <a class="nav-link" href="../home.html">
+              <svg class="nav-home-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 10.5L12 3l9 7.5"/>
+                <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>
+              </svg>
+              <span>Home</span>
+            </a>
+          </li>
+          <li><a class="nav-link is-active" href="search.html" aria-current="page">Fleet</a></li>
+          <li><a class="nav-link" href="../book.html">Booking</a></li>
+          <li><a class="nav-link" href="../home.html#trip-planner">Add-ons</a></li>
+          <li class="nav-more-item">
+            <button
+              type="button"
+              class="nav-more-btn"
+              id="moreNavBtn"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="moreNavMenu"
+            >
+              <span>More</span>
+              <svg class="nav-chevron-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <ul class="nav-dropdown-menu" id="moreNavMenu" hidden>
+              <li><a class="nav-dropdown-link" href="../home.html#categories">Browse Categories</a></li>
+              <li><a class="nav-dropdown-link" href="../home.html#trip-planner">Trip Planner</a></li>
+              <li><a class="nav-dropdown-link" href="../home.html#locations">Pickup Locations</a></li>
+              <li><a class="nav-dropdown-link" href="../home.html#estimator">Fare Estimator</a></li>
+              <li><a class="nav-dropdown-link" href="#support">24/7 Support</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-controls">
+        <button
+          type="button"
+          class="icon-btn"
+          id="favDrawerBtn"
+          aria-label="Open Favourite Rides and Favourite Cars"
+          aria-controls="favDrawer"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="icon-badge" id="favCountBadge">0</span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="accountModalBtn"
+          aria-label="View registered account profile"
+          aria-controls="accountModal"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span class="account-dot" id="accountStatusDot" hidden></span>
+        </button>
+
+        <a href="../book.html" class="btn-book-header">Book Now</a>
+
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-expanded="false"
+          aria-controls="primaryNav"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="search-page-main">
+    <!-- Hero Search Banner (Dark Navy Centered) -->
+    <section class="hero-search-banner" aria-labelledby="hero-search-title">
+      <div class="container hero-banner-inner">
+        <span class="hero-eyebrow">RentRide Fleet Explorer</span>
+        <h1 id="hero-search-title" class="hero-banner-title">Select Vehicle and Dates</h1>
+        <p class="hero-banner-subtitle">
+          Lock in your pickup and return schedule, filter by body style, and reserve verified vehicles with instant confirmation.
+        </p>
+      </div>
+    </section>
+
+    <!-- Sticky Search Utility (Start-to-End Calendar Widgets + Arrow + Teal Search Button) -->
+    <section class="sticky-utility-wrapper" aria-label="Rental date range selector">
+      <div class="container">
+        <form id="dateUtilityForm" class="sticky-search-utility" novalidate>
+          <div class="date-range-group">
+            <!-- Start Date Calendar Widget -->
+            <div class="date-widget" data-date-widget="start">
+              <span class="date-widget-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="3"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </span>
+              <div class="date-widget-text">
+                <label for="pickupDate" class="date-widget-caption">Pickup Date</label>
+                <span class="date-widget-display" id="pickupDateDisplay">02 - 23 - Nov</span>
+              </div>
+              <input
+                type="date"
+                id="pickupDate"
+                name="pickupDate"
+                class="date-native-input"
+                aria-label="Pickup Date: 02 - 23 - Nov"
+                value="2026-11-23"
+              >
+            </div>
+
+            <!-- Center Arrow Connector -->
+            <div class="date-arrow-connector" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="12" x2="20" y2="12"/>
+                <polyline points="14 6 20 12 14 18"/>
+              </svg>
+            </div>
+
+            <!-- End Date Calendar Widget -->
+            <div class="date-widget" data-date-widget="end">
+              <span class="date-widget-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="3"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                  <path d="M9 16l2 2 4-4"/>
+                </svg>
+              </span>
+              <div class="date-widget-text">
+                <label for="returnDate" class="date-widget-caption">Return Date</label>
+                <span class="date-widget-display" id="returnDateDisplay">Dx - 28 - Nov</span>
+              </div>
+              <input
+                type="date"
+                id="returnDate"
+                name="returnDate"
+                class="date-native-input"
+                aria-label="Return Date: Dx - 28 - Nov"
+                value="2026-11-28"
+              >
+            </div>
+          </div>
+
+          <button type="submit" id="utilitySearchBtn" class="btn btn-teal utility-search-btn">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <span>Search</span>
+          </button>
+        </form>
+        <p id="dateValidationMsg" class="date-validation-msg" role="alert" hidden></p>
+      </div>
+    </section>
+
+    <!-- Workspace Layout: Left Side Control Panel + Right Search Feed -->
+    <section class="workspace-section" aria-label="Vehicle search and filters">
+      <div class="container workspace-grid">
+        <!-- Left Side Control Panel -->
+        <aside class="control-sidebar" aria-label="Search control panel">
+          <!-- Segmented Control Options -->
+          <div class="segmented-control" role="tablist" aria-label="Control panel view">
+            <button type="button" class="segment-btn is-active" data-segment="all" role="tab" aria-selected="true">All</button>
+            <button type="button" class="segment-btn" data-segment="search" role="tab" aria-selected="false">Search</button>
+            <button type="button" class="segment-btn" data-segment="categories" role="tab" aria-selected="false">Categories</button>
+            <button type="button" class="segment-btn" data-segment="filters" role="tab" aria-selected="false">Filters</button>
+          </div>
+
+          <!-- Car Categories Grid -->
+          <div class="sidebar-panel-block" id="categoriesPanelBlock">
+            <div class="panel-block-header">
+              <h2 class="panel-block-title">Car Categories</h2>
+              <button type="button" class="panel-clear-link" id="clearCategoryBtn">Show All</button>
+            </div>
+
+            <div class="category-tiles-grid" role="group" aria-label="Filter by car category">
+              <button type="button" class="category-tile" data-cat-tile="Hatchback" aria-pressed="false">
+                <span class="tile-illustration" aria-hidden="true">
+                  <svg viewBox="0 0 64 34" width="58" height="30" fill="none">
+                    <path d="M8 22H5.5C4.4 22 3.5 21.1 3.5 20V16.8C3.5 15.6 4.2 14.5 5.3 14.1L11 12L17.5 6.8C18.7 5.8 20.2 5.3 21.8 5.3H38.5C42.2 5.3 45.6 7.1 47.7 10.2L51.5 15.5L57.2 16.9C59.1 17.4 60.5 19.1 60.5 21.1V22H55.5" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 12.8H44.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    <path d="M29 5.8V12.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    <circle cx="16.5" cy="23.5" r="4.2" fill="#E6F5F3" stroke="currentColor" stroke-width="2.1"/>
+                    <circle cx="47.5" cy="23.5" r="4.2" fill="#E6F5F3" stroke="currentColor" stroke-width="2.1"/>
+                    <path d="M21 23.5H43" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="tile-label">Hatchback</span>
+                <span class="tile-count" data-count-cat="Hatchback">2</span>
+              </button>
+
+              <button type="button" class="category-tile" data-cat-tile="Sedan" aria-pressed="false">
+                <span class="tile-illustration" aria-hidden="true">
+                  <svg viewBox="0 0 64 34" width="58" height="30" fill="none">
+                    <path d="M7 22H4.5C3.7 22 3 21.3 3 20.5V17.6C3 16.4 3.8 15.3 5 14.9L12.5 12.6L19.2 6.8C20.4 5.8 21.9 5.3 23.5 5.3H39.8C41.5 5.3 43.1 5.9 44.4 7L50.5 12.5L58 14.4C59.8 14.8 61 16.4 61 18.2V20.5C61 21.3 60.3 22 59.5 22H55.5" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16.5 12.8H46" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    <path d="M31 5.6V12.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    <circle cx="16.5" cy="23.5" r="4.2" fill="#E6F5F3" stroke="currentColor" stroke-width="2.1"/>
+                    <circle cx="47.5" cy="23.5" r="4.2" fill="#E6F5F3" stroke="currentColor" stroke-width="2.1"/>
+                    <path d="M21 23.5H43" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="tile-label">Sedan</span>
+                <span class="tile-count" data-count-cat="Sedan">2</span>
+              </button>
+
+              <button type="button" class="category-tile" data-cat-tile="SUV" aria-pressed="false">
+                <span class="tile-illustration" aria-hidden="true">
+                  <svg viewBox="0 0 64 34" width="58" height="30" fill="none">
+                    <path d="M6.5 22H4.5C3.7 22 3 21.3 3 20.5V15.5C3 14.2 3.9 13.1 5.2 12.7L11 11L15.2 5.2C16 4.1 17.3 3.5 18.7 3.5H44.5C46.3 3.5 48 4.4 49 5.9L53 11.8L58.5 13.4C60 13.8 61 15.2 61 16.8V20.5C61 21.3 60.3 22 59.5 22H56" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14.5 11.8H49.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    <path d="M29.5 3.8V11.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    <path d="M40.5 3.8V11.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    <circle cx="16" cy="23.5" r="4.6" fill="#E6F5F3" stroke="currentColor" stroke-width="2.1"/>
+                    <circle cx="48" cy="23.5" r="4.6" fill="#E6F5F3" stroke="currentColor" stroke-width="2.1"/>
+                    <path d="M21 23.5H43" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="tile-label">SUV</span>
+                <span class="tile-count" data-count-cat="SUV">2</span>
+              </button>
+
+              <button type="button" class="category-tile" data-cat-tile="Luxury" aria-pressed="false">
+                <span class="tile-illustration" aria-hidden="true">
+                  <svg viewBox="0 0 64 34" width="58" height="30" fill="none">
+                    <path d="M7 22.2H4.5C3.7 22.2 3 21.5 3 20.7V18.2C3 17 3.8 15.9 5 15.6L13.5 13.5L21.5 7.4C22.8 6.4 24.4 5.9 26 5.9H40.8C42.8 5.9 44.7 6.7 46 8.2L51.5 13.8L58.5 15.4C60.1 15.8 61.2 17.2 61.2 18.8V20.7C61.2 21.5 60.5 22.2 59.7 22.2H55.5" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M17.5 13.6H48" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    <polygon points="32,1.2 33.4,3.8 36.2,4.2 34.1,6.1 34.6,8.9 32,7.5 29.4,8.9 29.9,6.1 27.8,4.2 30.6,3.8" fill="currentColor" opacity="0.85"/>
+                    <circle cx="16.5" cy="23.5" r="4.2" fill="#E6F5F3" stroke="currentColor" stroke-width="2.1"/>
+                    <circle cx="47.5" cy="23.5" r="4.2" fill="#E6F5F3" stroke="currentColor" stroke-width="2.1"/>
+                    <path d="M21 23.5H43" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <span class="tile-label">Luxury</span>
+                <span class="tile-count" data-count-cat="Luxury">2</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Detailed Filters Panel -->
+          <div class="sidebar-panel-block" id="filtersPanelBlock">
+            <div class="panel-block-header">
+              <h2 class="panel-block-title">Refine Filters</h2>
+              <button type="button" class="panel-clear-link" id="resetAllFiltersBtn">Reset</button>
+            </div>
+
+            <div class="filter-group">
+              <label for="filterCity" class="filter-label">Pickup City</label>
+              <select id="filterCity" class="filter-select">
+                <option value="">All Cities</option>
+                <option value="Islamabad">Islamabad</option>
+                <option value="Lahore">Lahore</option>
+                <option value="Karachi">Karachi</option>
+                <option value="Rawalpindi">Rawalpindi</option>
+                <option value="Peshawar">Peshawar</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-label-row">
+                <label for="maxPriceSlider" class="filter-label">Max Daily Rate</label>
+                <span id="maxPriceValue" class="rate-pill">$160/day</span>
+              </div>
+              <input type="range" id="maxPriceSlider" class="price-slider" min="40" max="160" step="5" value="160">
+              <div class="slider-bounds">
+                <span>$40</span>
+                <span>$160</span>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-label">Transmission</span>
+              <div class="chip-group" role="group" aria-label="Filter by transmission">
+                <button type="button" class="filter-chip is-active" data-trans-filter="all" aria-pressed="true">Any</button>
+                <button type="button" class="filter-chip" data-trans-filter="Automatic" aria-pressed="false">Automatic</button>
+                <button type="button" class="filter-chip" data-trans-filter="Hybrid" aria-pressed="false">Hybrid</button>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Right Main Search Feed -->
+        <div class="search-feed-column">
+          <!-- Centered Large Search Bar + Teal Search Execution Button -->
+          <form id="feedSearchForm" class="feed-search-bar-wrap" role="search" aria-label="Search available vehicles">
+            <div class="feed-search-box">
+              <span class="feed-search-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="7"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </span>
+              <input
+                type="search"
+                id="feedSearchInput"
+                class="feed-search-input"
+                placeholder="Search..."
+                aria-label="Search vehicles by model, category, or city"
+              >
+              <button type="submit" id="feedSearchBtn" class="btn btn-teal feed-search-btn">
+                <span>Search</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Results Meta & Sort Bar -->
+          <div class="feed-meta-bar">
+            <div class="feed-meta-left">
+              <h2 class="feed-heading" id="feedHeading">Available Vehicles</h2>
+              <p class="feed-count-text" id="resultsCountText" aria-live="polite">8 vehicles available</p>
+            </div>
+            <div class="feed-meta-right">
+              <label for="sortOrderSelect" class="sort-label">Sort by</label>
+              <select id="sortOrderSelect" class="sort-select">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Active Filter Tags Strip -->
+          <div class="active-tags-strip" id="activeTagsStrip" hidden></div>
+
+          <!-- Distinct Car Image Results Grid -->
+          <div id="vehicleFeedGrid" class="vehicle-feed-grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Dark Navy Footer -->
+  <footer class="site-footer" id="support">
+    <div class="container footer-columns">
+      <div class="footer-col footer-col-brand">
+        <h2 class="footer-brand-heading">BOOK SMARTER &ndash; TRAVEL BETTER</h2>
+        <p class="footer-brand-copy">
+          Transparent car rental policies, flexible bookings, and 24/7 roadside assistance.
+        </p>
+        <p class="footer-copyright">
+          &copy; <span id="currentYear">2026</span> RentRide. All rights reserved.
+        </p>
+      </div>
+
+      <div class="footer-col footer-col-links">
+        <h3 class="footer-col-heading">QUICK LINKS</h3>
+        <ul class="footer-links">
+          <li><a href="../home.html">Home</a></li>
+          <li><a href="../book.html">Booking</a></li>
+          <li><a href="../book.html#register-card-title">Account</a></li>
+          <li><a href="../home.html#trip-planner">Help</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-links">
+        <h3 class="footer-col-heading">RESOURCES</h3>
+        <ul class="footer-links">
+          <li><a href="#support">Support</a></li>
+          <li><a href="mailto:support@rentride.example">Contact us</a></li>
+          <li><a href="#support">Privacy Policy</a></li>
+          <li><a href="#support">Terms of service</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Backdrop -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+
+  <!-- Favourites Drawer -->
+  <aside
+    class="fav-drawer"
+    id="favDrawer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="favDrawerTitle"
+    hidden
+  >
+    <div class="drawer-header">
+      <h2 id="favDrawerTitle" class="drawer-title">Favourite Rides &amp; Favourite Cars</h2>
+      <button type="button" class="drawer-close" id="closeFavDrawer" aria-label="Close Favourites drawer">&times;</button>
+    </div>
+
+    <div class="drawer-body">
+      <section class="drawer-section">
+        <div class="drawer-section-head">
+          <h3>Favourite Cars</h3>
+          <button type="button" class="text-btn" id="clearFavCarsBtn">Clear</button>
+        </div>
+        <div id="favCarsList" class="fav-list"></div>
+      </section>
+
+      <section class="drawer-section">
+        <div class="drawer-section-head">
+          <h3>Favourite Rides</h3>
+          <button type="button" class="text-btn" id="clearFavRidesBtn">Clear</button>
+        </div>
+        <div id="favRidesList" class="fav-list"></div>
+      </section>
+    </div>
+  </aside>
+
+  <!-- User Account Profile Modal -->
+  <div
+    class="account-modal"
+    id="accountModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="accountModalTitle"
+    hidden
+  >
+    <div class="account-modal-head">
+      <h2 id="accountModalTitle" class="drawer-title">Account Profile</h2>
+      <button type="button" class="drawer-close" id="closeAccountModal" aria-label="Close Account profile">&times;</button>
+    </div>
+    <div id="accountModalBody" class="account-modal-body"></div>
+  </div>
+</body>
+</html>
