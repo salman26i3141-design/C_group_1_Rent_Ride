@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Member Account / Pass | RentRide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & VARIABLES
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #101D32;
+      --navy-deep: #0a1221;
+      --teal:      #14B8A6;
+      --teal-dark: #0d9488;
+      --teal-lite: #ccfbf1;
+      --grey:      #F4F7FA;
+      --amber:     #F59E0B;
+      --amber-lt:  #fef3c7;
+      --white:     #ffffff;
+      --text:      #1e293b;
+      --muted:     #64748b;
+      --danger:    #ef4444;
+      --danger-dk: #dc2626;
+      --success:   #10b981;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--grey);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    header {
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 16px rgba(0,0,0,.35);
+    }
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+    }
+    .logo {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      margin-right: 32px;
+    }
+    .logo-svg { width: 28px; height: 20px; }
+    .logo-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.25rem; line-height: 1; }
+    .logo-name .r { color: var(--white); }
+    .logo-name .g { color: var(--teal); }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex: 1;
+    }
+    .nav-links > li > a, .more-btn {
+      color: rgba(255,255,255,.88);
+      text-decoration: none;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      padding: 7px 13px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background .18s;
+      cursor: pointer;
+    }
+    .nav-links > li > a:hover { background: rgba(255,255,255,.1); }
+    .nav-links > li > a.active { background: rgba(255,255,255,.1); border-bottom: 2px solid var(--teal); border-radius: 7px 7px 0 0; }
+
+    /* More dropdown */
+    .more-wrap { position: relative; }
+    .more-btn {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      color: var(--white);
+      border-radius: 7px;
+    }
+    .more-btn:hover { background: rgba(255,255,255,.18); }
+    .chevron { font-size: .65rem; transition: transform .2s; display: inline-block; }
+    .more-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+    .mega-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: 0 12px 48px rgba(0,0,0,.18);
+      width: 440px;
+      padding: 22px 24px 18px;
+      z-index: 2000;
+    }
+    .mega-menu.open { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+
+    .mm-group { margin-bottom: 14px; }
+    .mm-group h5 {
+      font-size: .68rem; font-weight: 700;
+      letter-spacing: .09em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+      padding-bottom: 5px; border-bottom: 1px solid #e9eef5;
+    }
+    .mm-group a {
+      display: block; color: var(--text);
+      text-decoration: none; font-size: .88rem;
+      padding: 5px 8px; border-radius: 6px;
+      transition: background .15s, color .15s;
+    }
+    .mm-group a:hover, .mm-group a.active { background: #f0fdfa; color: var(--teal); }
+
+    .nav-right { display: flex; align-items: center; gap: 8px; margin-left: 20px; flex-shrink: 0; }
+    .icon-btn {
+      background: transparent; border: none; color: var(--white);
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; cursor: pointer;
+      transition: background .18s; position: relative;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,.12); }
+    .badge {
+      position: absolute; top: 3px; right: 3px;
+      background: var(--teal); color: var(--white);
+      border-radius: 50%; width: 16px; height: 16px;
+      font-size: .58rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--navy);
+    }
+    .btn-book {
+      background: var(--teal); color: var(--white);
+      border: none; padding: 9px 20px; border-radius: 24px;
+      font-weight: 600; font-size: .88rem;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .btn-book:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all .3s; }
+
+    .mobile-nav {
+      display: none; flex-direction: column;
+      background: var(--navy); border-top: 1px solid rgba(255,255,255,.08);
+      padding: 12px 24px 20px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      color: rgba(255,255,255,.85); text-decoration: none;
+      padding: 10px 0; font-size: .93rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+
+    /* ============================================================
+       MAIN
+    ============================================================ */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 24px 60px;
+    }
+
+    /* ============================================================
+       AUTH CONTAINER (Login + Sign Up)
+    ============================================================ */
+    .auth-container {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .auth-box {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 44px 40px;
+      box-shadow: 0 8px 48px rgba(16,29,50,.12);
+      animation: slideUp .4s ease both;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Auth header branding */
+    .auth-logo {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-bottom: 28px;
+    }
+    .auth-logo-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .auth-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.55rem; font-weight: 700;
+      color: var(--navy); text-align: center;
+      margin-bottom: 6px;
+    }
+    .auth-sub {
+      text-align: center; color: var(--muted);
+      font-size: .9rem; margin-bottom: 32px;
+    }
+
+    /* Demo notice */
+    .demo-notice {
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 24px;
+      font-size: .82rem;
+      color: var(--teal-dark);
+      display: flex; gap: 8px; align-items: flex-start;
+    }
+    .demo-notice strong { display: block; margin-bottom: 2px; color: var(--navy); }
+
+    /* Form fields */
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block; font-size: .85rem; font-weight: 600;
+      color: var(--navy); margin-bottom: 7px;
+    }
+    .field input {
+      width: 100%; padding: 12px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px; font-size: .93rem;
+      font-family: 'Inter', sans-serif; color: var(--text);
+      transition: border-color .2s, box-shadow .2s;
+      outline: none;
+      background: var(--grey);
+    }
+    .field input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(20,184,166,.12);
+      background: var(--white);
+    }
+    .field input.error { border-color: var(--danger); }
+
+    .field-error {
+      font-size: .78rem; color: var(--danger);
+      margin-top: 5px; display: none;
+    }
+    .field-error.show { display: block; }
+
+    /* Password wrapper */
+    .pw-wrap { position: relative; }
+    .pw-wrap input { padding-right: 44px; }
+    .pw-toggle {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: var(--muted);
+      font-size: 1rem; display: flex; align-items: center;
+    }
+    .pw-toggle:hover { color: var(--teal); }
+
+    /* Alert box */
+    .auth-alert {
+      border-radius: 10px; padding: 12px 16px;
+      font-size: .88rem; margin-bottom: 18px;
+      display: none; align-items: center; gap: 10px;
+    }
+    .auth-alert.show { display: flex; }
+    .auth-alert.error   { background: #fef2f2; color: var(--danger-dk); border: 1px solid #fecaca; }
+    .auth-alert.success { background: #f0fdf4; color: #166534;          border: 1px solid #bbf7d0; }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%; padding: 13px;
+      background: var(--teal); color: var(--white);
+      border: none; border-radius: 11px;
+      font-size: .97rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: background .2s, transform .15s;
+      margin-top: 4px;
+    }
+    .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
+
+    .auth-switch {
+      text-align: center; margin-top: 22px;
+      font-size: .88rem; color: var(--muted);
+    }
+    .auth-switch a {
+      color: var(--teal); font-weight: 600;
+      text-decoration: none; cursor: pointer;
+    }
+    .auth-switch a:hover { text-decoration: underline; }
+
+    /* ============================================================
+       DASHBOARD
+    ============================================================ */
+    .dashboard-wrap {
+      width: 100%;
+      max-width: 900px;
+      animation: slideUp .4s ease both;
+    }
+
+    /* Top bar */
+    .dash-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px; flex-wrap: wrap; gap: 12px;
+    }
+    .dash-greeting {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem; font-weight: 700; color: var(--navy);
+    }
+    .dash-greeting span { color: var(--teal); }
+    .btn-logout {
+      display: flex; align-items: center; gap: 7px;
+      background: transparent; border: 1.5px solid var(--danger);
+      color: var(--danger); padding: 9px 18px; border-radius: 9px;
+      font-size: .88rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .btn-logout:hover { background: var(--danger); color: var(--white); }
+
+    /* Grid layout */
+    .dash-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* Info card */
+    .info-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 2px 18px rgba(16,29,50,.08);
+    }
+    .info-card h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem; font-weight: 700; color: var(--navy);
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .info-card h3::after {
+      content: ''; flex: 1; height: 2px;
+      background: linear-gradient(to right, var(--teal), transparent);
+      border-radius: 2px;
+    }
+
+    .info-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid #f1f5f9;
+      font-size: .9rem;
+    }
+    .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .info-label { color: var(--muted); font-weight: 500; }
+    .info-value { color: var(--navy); font-weight: 600; text-align: right; max-width: 55%; word-break: break-word; }
+
+    .status-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #dcfce7; color: #166534;
+      font-size: .78rem; font-weight: 700;
+      padding: 4px 11px; border-radius: 20px;
+    }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
+
+    /* ─── MEMBERSHIP PASS ─── */
+    .pass-card {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, var(--navy) 0%, #1b3058 60%, #0f2847 100%);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(16,29,50,.22);
+      color: var(--white);
+      min-height: 180px;
+    }
+
+    /* Decorative circles */
+    .pass-card::before, .pass-card::after {
+      content: ''; position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(20,184,166,.18);
+    }
+    .pass-card::before { width: 260px; height: 260px; top: -100px; right: -60px; }
+    .pass-card::after  { width: 160px; height: 160px; bottom: -60px; right: 60px; }
+
+    .pass-inner {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .pass-logo-block {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; flex-shrink: 0;
+    }
+    .pass-logo-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      background: rgba(20,184,166,.2);
+      border: 1.5px solid rgba(20,184,166,.5);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pass-brand {
+      font-family: 'Poppins', sans-serif;
+      font-size: .85rem; font-weight: 700; letter-spacing: .04em;
+      text-align: center;
+    }
+    .pass-brand span { color: var(--teal); }
+
+    .pass-divider {
+      width: 1px; height: 90px;
+      background: rgba(255,255,255,.15);
+      flex-shrink: 0;
+    }
+
+    .pass-info { flex: 1; min-width: 180px; }
+    .pass-label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--teal); margin-bottom: 5px;
+    }
+    .pass-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      margin-bottom: 8px; letter-spacing: .01em;
+    }
+    .pass-id {
+      font-size: .82rem; color: rgba(255,255,255,.65);
+      font-family: 'Courier New', monospace; letter-spacing: .05em;
+      margin-bottom: 10px;
+    }
+    .pass-status-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(20,184,166,.2); border: 1px solid rgba(20,184,166,.5);
+      color: var(--teal); font-size: .75rem; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px;
+    }
+
+    .pass-right { margin-left: auto; text-align: right; flex-shrink: 0; }
+    .pass-type-label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 4px;
+    }
+    .pass-type {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.1rem; font-weight: 700; color: var(--amber);
+      margin-bottom: 10px;
+    }
+    .pass-valid-label {
+      font-size: .68rem; color: rgba(255,255,255,.5);
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px;
+    }
+    .pass-valid-date {
+      font-size: .9rem; font-weight: 600; color: rgba(255,255,255,.85);
+    }
+
+    /* Barcode-style strip */
+    .pass-barcode {
+      grid-column: 1 / -1;
+      display: flex; justify-content: center;
+      margin-top: 16px; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.1);
+      position: relative; z-index: 1;
+    }
+    .barcode-strips {
+      display: flex; gap: 2px; align-items: flex-end; height: 32px;
+    }
+    .barcode-strips span {
+      display: block; background: rgba(255,255,255,.35);
+      border-radius: 1px;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer { background: #0a1221; color: var(--white); padding: 52px 24px 36px; }
+    .foot-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.9fr 1fr 1fr; gap: 48px;
+    }
+    .foot-brand h2 {
+      font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .04em; color: var(--white); margin-bottom: 12px;
+    }
+    .foot-brand p { color: rgba(255,255,255,.58); font-size: .88rem; line-height: 1.72; margin-bottom: 20px; max-width: 290px; }
+    .foot-copy { color: rgba(255,255,255,.35); font-size: .8rem; }
+    .foot-col h4 {
+      font-family: 'Poppins', sans-serif; font-size: .68rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px;
+    }
+    .foot-col ul { list-style: none; }
+    .foot-col ul li { margin-bottom: 11px; }
+    .foot-col ul li a { color: rgba(255,255,255,.62); text-decoration: none; font-size: .88rem; transition: color .2s; }
+    .foot-col ul li a:hover { color: var(--teal); }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    .toast {
+      position: fixed; bottom: 28px; right: 28px;
+      background: var(--navy); color: var(--white);
+      padding: 14px 20px; border-radius: 12px; font-size: .88rem;
+      box-shadow: 0 10px 36px rgba(0,0,0,.26);
+      display: flex; align-items: center; gap: 10px;
+      z-index: 9999;
+      transform: translateY(90px); opacity: 0;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+      border-left: 4px solid var(--teal);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      .nav-links, .btn-book { display: none; }
+      .hamburger { display: flex; }
+      .nav-wrap { justify-content: space-between; }
+      .foot-inner { grid-template-columns: 1fr; gap: 32px; }
+      .auth-box { padding: 32px 24px; }
+      .dash-grid { grid-template-columns: 1fr; }
+      .pass-card { padding: 24px 20px; }
+      .pass-divider { display: none; }
+      .pass-right { margin-left: 0; text-align: left; width: 100%; }
+      .pass-name { font-size: 1.2rem; }
+      .dash-greeting { font-size: 1.2rem; }
+    }
+    @media (max-width: 480px) {
+      main { padding: 28px 16px 48px; }
+      .auth-logo { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================================================================
+     HEADER
+================================================================ -->
+<header>
+  <div class="nav-wrap">
+    <a href="home.html" class="logo" aria-label="RentRide Home">
+      <svg class="logo-svg" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 15l3-7h22l3 7" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"/>
+        <rect x="1" y="14" width="34" height="7" rx="3" fill="#14B8A6" fill-opacity=".18" stroke="#14B8A6" stroke-width="1.5"/>
+        <circle cx="9" cy="21" r="2.5" fill="#14B8A6"/>
+        <circle cx="27" cy="21" r="2.5" fill="#14B8A6"/>
+        <rect x="7" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+        <rect x="21" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+      </svg>
+      <span class="logo-name"><span class="r">Rent</span><span class="g">Ride</span></span>
+    </a>
+
+    <ul class="nav-links" role="navigation" aria-label="Primary navigation">
+      <li><a href="home.html">⌂ Home</a></li>
+      <li><a href="fleet.html">Fleet</a></li>
+      <li><a href="booking.html">Booking</a></li>
+      <li><a href="addons.html">Add-ons</a></li>
+      <li class="more-wrap">
+        <button class="more-btn" id="moreBtn" aria-haspopup="true" aria-expanded="false">
+          More <span class="chevron">▾</span>
+        </button>
+        <div class="mega-menu" id="megaMenu" role="menu">
+          <!-- Left column -->
+          <div>
+            <div class="mm-group">
+              <h5>Help &amp; Policies</h5>
+              <a href="faq.html">FAQ</a>
+              <a href="support.html">Support &amp; Help</a>
+            </div>
+            <div class="mm-group">
+              <h5>Vehicles &amp; Booking</h5>
+              <a href="vehicle-details.html">Vehicle Details</a>
+              <a href="confirmation.html">Confirmation</a>
+            </div>
+            <div class="mm-group">
+              <h5>Account &amp; Offers</h5>
+              <a href="saved-trips.html">Saved Trips</a>
+              <a href="deals.html">Deals</a>
+            </div>
+            <div class="mm-group">
+              <h5>Planning &amp; Tools</h5>
+              <a href="trip-planner.html">Trip Planner</a>
+              <a href="calculator.html">Calculator</a>
+            </div>
+          </div>
+          <!-- Right column -->
+          <div>
+            <div class="mm-group">
+              <h5>&nbsp;</h5>
+              <a href="safety.html">Safety &amp; Policies</a>
+            </div>
+            <div class="mm-group"><h5>&nbsp;</h5></div>
+            <div class="mm-group">
+              <h5>&nbsp;</h5>
+              <a href="account.html" class="active">Account</a>
+            </div>
+            <div class="mm-group">
+              <h5>&nbsp;</h5>
+              <a href="locations.html">Locations</a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Saved cars">
+        <svg width="20" height="18" viewBox="0 0 24 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <span class="badge">0</span>
+      </button>
+      <button class="icon-btn" aria-label="Account" id="navAccountBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </button>
+      <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="home.html">⌂ Home</a>
+    <a href="fleet.html">Fleet</a>
+    <a href="booking.html">Booking</a>
+    <a href="addons.html">Add-ons</a>
+    <a href="saved-trips.html">Saved Trips</a>
+    <a href="account.html">Account</a>
+    <a href="faq.html">FAQ</a>
+    <a href="deals.html">Deals</a>
+  </nav>
+</header>
+
+<!-- ================================================================
+     MAIN
+================================================================ -->
+<main id="mainArea">
+
+  <!-- ══════════════════════════════════════════
+       LOGIN SCREEN
+  ══════════════════════════════════════════ -->
+  <div class="auth-container" id="loginScreen">
+    <div class="auth-box">
+
+      <!-- Branding -->
+      <div class="auth-logo">
+        <div class="auth-logo-icon">
+          <svg width="26" height="20" viewBox="0 0 36 24" fill="none" aria-hidden="true">
+            <path d="M4 15l3-7h22l3 7" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"/>
+            <rect x="1" y="14" width="34" height="7" rx="3" fill="#14B8A6" fill-opacity=".3" stroke="#14B8A6" stroke-width="1.5"/>
+            <circle cx="9" cy="21" r="2.5" fill="#14B8A6"/>
+            <circle cx="27" cy="21" r="2.5" fill="#14B8A6"/>
+            <rect x="7" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+            <rect x="21" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="auth-title">Member Account / Pass</h1>
+      <p class="auth-sub">Sign in to access your account</p>
+
+      <!-- Demo credentials hint -->
+      <div class="demo-notice">
+        <span>ℹ️</span>
+        <div>
+          <strong>Demo Credentials</strong>
+          Email: <b>demo@rentride.com</b> &nbsp;|&nbsp; Password: <b>Demo@123</b>
+        </div>
+      </div>
+
+      <!-- Alert -->
+      <div class="auth-alert" id="loginAlert" role="alert"></div>
+
+      <!-- Login form -->
+      <form id="loginForm" novalidate autocomplete="off">
+        <div class="field">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" />
+          <span class="field-error" id="loginEmailErr">Please enter a valid email address.</span>
+        </div>
+        <div class="field">
+          <label for="loginPassword">Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="loginPassword" placeholder="Enter your password" autocomplete="current-password" />
+            <button type="button" class="pw-toggle" onclick="togglePw('loginPassword', this)" aria-label="Show password">👁️</button>
+          </div>
+          <span class="field-error" id="loginPassErr">Password must be at least 6 characters.</span>
+        </div>
+        <button type="submit" class="btn-primary" id="loginBtn">Sign In</button>
+      </form>
+
+      <p class="auth-switch">
+        Don't have an account?
+        <a href="#" id="goSignUp" role="button">Sign Up</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SIGN UP SCREEN
+  ══════════════════════════════════════════ -->
+  <div class="auth-container" id="signupScreen" style="display:none;">
+    <div class="auth-box">
+
+      <div class="auth-logo">
+        <div class="auth-logo-icon">
+          <svg width="26" height="20" viewBox="0 0 36 24" fill="none" aria-hidden="true">
+            <path d="M4 15l3-7h22l3 7" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"/>
+            <rect x="1" y="14" width="34" height="7" rx="3" fill="#14B8A6" fill-opacity=".3" stroke="#14B8A6" stroke-width="1.5"/>
+            <circle cx="9" cy="21" r="2.5" fill="#14B8A6"/>
+            <circle cx="27" cy="21" r="2.5" fill="#14B8A6"/>
+            <rect x="7" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+            <rect x="21" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="auth-title">Create Account</h1>
+      <p class="auth-sub">Join RentRide — it's free</p>
+
+      <div class="auth-alert" id="signupAlert" role="alert"></div>
+
+      <form id="signupForm" novalidate autocomplete="off">
+        <div class="field">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" placeholder="Your full name" />
+          <span class="field-error" id="signupNameErr">Please enter your full name.</span>
+        </div>
+        <div class="field">
+          <label for="signupEmail">Email Address</label>
+          <input type="email" id="signupEmail" placeholder="you@example.com" />
+          <span class="field-error" id="signupEmailErr">Please enter a valid email address.</span>
+        </div>
+        <div class="field">
+          <label for="signupPassword">Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="signupPassword" placeholder="Min. 6 characters" />
+            <button type="button" class="pw-toggle" onclick="togglePw('signupPassword', this)" aria-label="Show password">👁️</button>
+          </div>
+          <span class="field-error" id="signupPassErr">Password must be at least 6 characters.</span>
+        </div>
+        <button type="submit" class="btn-primary">Create Account</button>
+      </form>
+
+      <p class="auth-switch">
+        Already have an account?
+        <a href="#" id="goLogin" role="button">Sign In</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       MEMBER DASHBOARD
+  ══════════════════════════════════════════ -->
+  <div class="dashboard-wrap" id="dashboardScreen" style="display:none;">
+
+    <div class="dash-topbar">
+      <div>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:4px;">Welcome back 👋</p>
+        <h2 class="dash-greeting">Hello, <span id="dashName">Member</span>!</h2>
+      </div>
+      <button class="btn-logout" id="logoutBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Logout
+      </button>
+    </div>
+
+    <div class="dash-grid">
+
+      <!-- ── Account Info ── -->
+      <div class="info-card">
+        <h3>Account Info</h3>
+        <div class="info-row">
+          <span class="info-label">Full Name</span>
+          <span class="info-value" id="infoName">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value" id="infoEmail">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Membership ID</span>
+          <span class="info-value" id="infoMID">—</span>
+        </div>
+      </div>
+
+      <!-- ── Membership Info ── -->
+      <div class="info-card">
+        <h3>Membership</h3>
+        <div class="info-row">
+          <span class="info-label">Start Date</span>
+          <span class="info-value" id="infoStart">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Membership Year</span>
+          <span class="info-value" id="infoYear">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span class="info-value">
+            <span class="status-pill"><span class="status-dot"></span>Active</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- ── Digital Membership Pass ── -->
+      <div class="pass-card" role="img" aria-label="Digital Membership Pass">
+        <div class="pass-inner">
+
+          <!-- Logo block -->
+          <div class="pass-logo-block">
+            <div class="pass-logo-icon">
+              <svg width="30" height="22" viewBox="0 0 36 24" fill="none" aria-hidden="true">
+                <path d="M4 15l3-7h22l3 7" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"/>
+                <rect x="1" y="14" width="34" height="7" rx="3" fill="#14B8A6" fill-opacity=".3" stroke="#14B8A6" stroke-width="1.5"/>
+                <circle cx="9" cy="21" r="2.5" fill="#14B8A6"/>
+                <circle cx="27" cy="21" r="2.5" fill="#14B8A6"/>
+                <rect x="7" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+                <rect x="21" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+              </svg>
+            </div>
+            <div class="pass-brand"><span style="color:#fff;">Rent</span><span>Ride</span></div>
+          </div>
+
+          <div class="pass-divider" aria-hidden="true"></div>
+
+          <!-- Member info -->
+          <div class="pass-info">
+            <p class="pass-label">Member Name</p>
+            <p class="pass-name" id="passName">—</p>
+            <p class="pass-id" id="passMID">ID: RR-000000</p>
+            <span class="pass-status-pill">
+              <span style="width:6px;height:6px;border-radius:50%;background:var(--teal);display:inline-block;"></span>
+              Active Member
+            </span>
+          </div>
+
+          <!-- Pass type + validity -->
+          <div class="pass-right">
+            <p class="pass-type-label">Pass Type</p>
+            <p class="pass-type">Premium</p>
+            <p class="pass-valid-label">Valid Since</p>
+            <p class="pass-valid-date" id="passStart">—</p>
+          </div>
+
+        </div>
+
+        <!-- Decorative barcode -->
+        <div class="pass-barcode" aria-hidden="true">
+          <div class="barcode-strips" id="barcodeStrips"></div>
+        </div>
+      </div>
+
+    </div><!-- /dash-grid -->
+  </div><!-- /dashboard-wrap -->
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert" aria-live="assertive">
+  <span>✅</span>
+  <span id="toastMsg">Done.</span>
+</div>
+
+<!-- ================================================================
+     FOOTER
+================================================================ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h2>Book Smarter – Travel Better</h2>
+      <p>Transparent car rental policies, flexible bookings, and 24/7 roadside assistance.</p>
+      <span class="foot-copy">© 2026 RentRide. All rights reserved.</span>
+    </div>
+    <div class="foot-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="booking.html">Booking</a></li>
+        <li><a href="account.html">Account</a></li>
+        <li><a href="help.html">Help</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="contact.html">Contact us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of service</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+  'use strict';
+
+  /* ─── Keys ───────────────────────────────────────────────────── */
+  const LS_USERS    = 'rr_users';
+  const LS_SESSION  = 'rr_session';
+
+  /* ─── Built-in demo account ──────────────────────────────────── */
+  const DEMO = {
+    name:      'Demo Member',
+    email:     'demo@rentride.com',
+    password:  'Demo@123',
+    memberID:  'RR-100001',
+    startDate: '01 Jan 2025',
+    year:      '2025'
+  };
+
+  /* ─── Helpers ────────────────────────────────────────────────── */
+  function getUsers() {
+    try { return JSON.parse(localStorage.getItem(LS_USERS) || '[]'); } catch(e) { return []; }
+  }
+  function saveUsers(arr) {
+    localStorage.setItem(LS_USERS, JSON.stringify(arr));
+  }
+  function getSession() {
+    try { return JSON.parse(sessionStorage.getItem(LS_SESSION) || 'null'); } catch(e) { return null; }
+  }
+  function setSession(user) { sessionStorage.setItem(LS_SESSION, JSON.stringify(user)); }
+  function clearSession()   { sessionStorage.removeItem(LS_SESSION); }
+
+  function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim()); }
+
+  /* ─── Screens ────────────────────────────────────────────────── */
+  const $login     = document.getElementById('loginScreen');
+  const $signup    = document.getElementById('signupScreen');
+  const $dashboard = document.getElementById('dashboardScreen');
+
+  function showScreen(which) {
+    $login.style.display     = which === 'login'     ? '' : 'none';
+    $signup.style.display    = which === 'signup'    ? '' : 'none';
+    $dashboard.style.display = which === 'dashboard' ? '' : 'none';
+
+    // Adjust main alignment for dashboard (needs more width)
+    const main = document.getElementById('mainArea');
+    main.style.justifyContent = which === 'dashboard' ? 'flex-start' : 'center';
+    main.style.paddingTop     = which === 'dashboard' ? '44px' : '48px';
+    window.scrollTo(0, 0);
+  }
+
+  /* ─── Password toggle ────────────────────────────────────────── */
+  function togglePw(id, btn) {
+    const inp = document.getElementById(id);
+    const show = inp.type === 'password';
+    inp.type = show ? 'text' : 'password';
+    btn.textContent = show ? '🙈' : '👁️';
+    btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  }
+
+  /* ─── Alert helpers ──────────────────────────────────────────── */
+  function setAlert(id, msg, type) {
+    const el = document.getElementById(id);
+    el.className = 'auth-alert show ' + type;
+    el.innerHTML = (type === 'error' ? '❌ ' : '✅ ') + msg;
+  }
+  function clearAlert(id) {
+    const el = document.getElementById(id);
+    el.className = 'auth-alert';
+    el.textContent = '';
+  }
+
+  /* ─── Field error helpers ────────────────────────────────────── */
+  function fieldErr(inputId, errId, show) {
+    document.getElementById(inputId).classList.toggle('error', show);
+    document.getElementById(errId).classList.toggle('show', show);
+  }
+
+  /* ─── LOGIN ──────────────────────────────────────────────────── */
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    clearAlert('loginAlert');
+
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass  = document.getElementById('loginPassword').value;
+
+    let valid = true;
+    if (!isValidEmail(email)) { fieldErr('loginEmail','loginEmailErr',true); valid = false; }
+    else                       { fieldErr('loginEmail','loginEmailErr',false); }
+    if (pass.length < 6)       { fieldErr('loginPassword','loginPassErr',true); valid = false; }
+    else                       { fieldErr('loginPassword','loginPassErr',false); }
+    if (!valid) return;
+
+    // Check demo account first
+    let user = null;
+    if (email.toLowerCase() === DEMO.email.toLowerCase() && pass === DEMO.password) {
+      user = { ...DEMO };
+    } else {
+      // Check localStorage accounts
+      const stored = getUsers().find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === pass);
+      if (stored) user = stored;
+    }
+
+    if (!user) {
+      setAlert('loginAlert', 'Incorrect email or password. Please try again.', 'error');
+      return;
+    }
+
+    setSession(user);
+    loadDashboard(user);
+    showScreen('dashboard');
+    showToast('Welcome back, ' + user.name.split(' ')[0] + '! ✨');
+  });
+
+  /* ─── SIGN UP ────────────────────────────────────────────────── */
+  document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    clearAlert('signupAlert');
+
+    const name  = document.getElementById('signupName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const pass  = document.getElementById('signupPassword').value;
+
+    let valid = true;
+    if (!name)             { fieldErr('signupName','signupNameErr',true);  valid = false; }
+    else                   { fieldErr('signupName','signupNameErr',false); }
+    if (!isValidEmail(email)) { fieldErr('signupEmail','signupEmailErr',true);  valid = false; }
+    else                      { fieldErr('signupEmail','signupEmailErr',false); }
+    if (pass.length < 6)   { fieldErr('signupPassword','signupPassErr',true);  valid = false; }
+    else                   { fieldErr('signupPassword','signupPassErr',false); }
+    if (!valid) return;
+
+    // Check duplicate
+    const users = getUsers();
+    if (email.toLowerCase() === DEMO.email.toLowerCase() ||
+        users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+      setAlert('signupAlert', 'An account with this email already exists.', 'error');
+      return;
+    }
+
+    // Build new user
+    const now      = new Date();
+    const months   = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const startDate = `${String(now.getDate()).padStart(2,'0')} ${months[now.getMonth()]} ${now.getFullYear()}`;
+    const uid       = 'RR-' + (200000 + users.length + 1);
+
+    const newUser = {
+      name, email, password: pass,
+      memberID:  uid,
+      startDate: startDate,
+      year:      String(now.getFullYear())
+    };
+
+    users.push(newUser);
+    saveUsers(users);
+
+    setAlert('signupAlert', 'Account created! Signing you in…', 'success');
+
+    setTimeout(() => {
+      setSession(newUser);
+      loadDashboard(newUser);
+      showScreen('dashboard');
+      showToast('Account created! Welcome, ' + name.split(' ')[0] + '! 🎉');
+    }, 1200);
+  });
+
+  /* ─── Navigation between screens ────────────────────────────── */
+  document.getElementById('goSignUp').addEventListener('click', e => {
+    e.preventDefault();
+    clearAlert('loginAlert');
+    document.getElementById('loginForm').reset();
+    showScreen('signup');
+  });
+  document.getElementById('goLogin').addEventListener('click', e => {
+    e.preventDefault();
+    clearAlert('signupAlert');
+    document.getElementById('signupForm').reset();
+    showScreen('login');
+  });
+
+  /* ─── LOGOUT ─────────────────────────────────────────────────── */
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    clearSession();
+    document.getElementById('loginForm').reset();
+    showScreen('login');
+    showToast('You have been signed out.');
+  });
+
+  /* ─── Load dashboard ─────────────────────────────────────────── */
+  function loadDashboard(user) {
+    document.getElementById('dashName').textContent   = user.name.split(' ')[0];
+    document.getElementById('infoName').textContent   = user.name;
+    document.getElementById('infoEmail').textContent  = user.email;
+    document.getElementById('infoMID').textContent    = user.memberID;
+    document.getElementById('infoStart').textContent  = user.startDate;
+    document.getElementById('infoYear').textContent   = user.year;
+    document.getElementById('passName').textContent   = user.name;
+    document.getElementById('passMID').textContent    = 'ID: ' + user.memberID;
+    document.getElementById('passStart').textContent  = user.startDate;
+    buildBarcode();
+  }
+
+  /* ─── Decorative barcode ─────────────────────────────────────── */
+  function buildBarcode() {
+    const container = document.getElementById('barcodeStrips');
+    container.innerHTML = '';
+    const widths  = [2,1,3,1,2,1,4,1,2,3,1,2,1,3,2,1,4,1,2,1,3,2,1,2,3,1,2,1,3,4,1,2,1,2,3,1,2,4,1,2];
+    const heights = [32,20,28,16,32,22,30,18,28,24,32,20,26,32,22,18,30,24,28,32,20,26,32,18,24,30,22,32,20,28];
+    widths.forEach((w, i) => {
+      const s = document.createElement('span');
+      s.style.width  = w + 'px';
+      s.style.height = (heights[i % heights.length]) + 'px';
+      s.style.opacity = (.2 + Math.random() * .4).toFixed(2);
+      container.appendChild(s);
+    });
+  }
+
+  /* ─── Toast ──────────────────────────────────────────────────── */
+  let _t;
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    el.classList.add('show');
+    clearTimeout(_t);
+    _t = setTimeout(() => el.classList.remove('show'), 3500);
+  }
+
+  /* ─── More dropdown ──────────────────────────────────────────── */
+  const moreBtn  = document.getElementById('moreBtn');
+  const megaMenu = document.getElementById('megaMenu');
+  moreBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = megaMenu.classList.toggle('open');
+    moreBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', () => {
+    megaMenu.classList.remove('open');
+    moreBtn.setAttribute('aria-expanded','false');
+  });
+  megaMenu.addEventListener('click', e => e.stopPropagation());
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { megaMenu.classList.remove('open'); moreBtn.setAttribute('aria-expanded','false'); }
+  });
+
+  /* ─── Hamburger ──────────────────────────────────────────────── */
+  document.getElementById('hamburger').addEventListener('click', () => {
+    const nav  = document.getElementById('mobileNav');
+    const btn  = document.getElementById('hamburger');
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+
+  /* ─── Init: check existing session ──────────────────────────── */
+  (function init() {
+    const session = getSession();
+    if (session) {
+      loadDashboard(session);
+      showScreen('dashboard');
+    } else {
+      showScreen('login');
+    }
+  })();
+</script>
+
+</body>
+</html>

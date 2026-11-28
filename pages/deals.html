@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deals &amp; Student Perks | RentRide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & VARIABLES
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #101D32;
+      --navy-deep: #0a1221;
+      --teal:      #14B8A6;
+      --teal-dark: #0d9488;
+      --teal-lite: #f0fdfa;
+      --grey:      #F4F7FA;
+      --amber:     #F59E0B;
+      --amber-lt:  #fef3c7;
+      --white:     #ffffff;
+      --text:      #1e293b;
+      --muted:     #64748b;
+      --danger:    #ef4444;
+      --success:   #10b981;
+      --border:    #e2e8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--grey);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    header {
+      background: var(--navy);
+      position: sticky; top: 0; z-index: 1000;
+      box-shadow: 0 2px 16px rgba(0,0,0,.35);
+    }
+    .nav-wrap {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 24px; height: 68px;
+      display: flex; align-items: center;
+    }
+    .logo {
+      text-decoration: none; display: flex;
+      align-items: center; gap: 8px;
+      flex-shrink: 0; margin-right: 32px;
+    }
+    .logo-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: 1.25rem; line-height: 1;
+    }
+    .logo-name .r { color: var(--white); }
+    .logo-name .g { color: var(--teal); }
+
+    .nav-links {
+      list-style: none; display: flex;
+      align-items: center; gap: 2px; flex: 1;
+    }
+    .nav-links > li > a, .more-btn {
+      color: rgba(255,255,255,.88); text-decoration: none;
+      font-size: .9rem; font-family: 'Inter', sans-serif;
+      padding: 7px 13px; border-radius: 7px;
+      display: flex; align-items: center; gap: 5px;
+      transition: background .18s; cursor: pointer;
+    }
+    .nav-links > li > a:hover { background: rgba(255,255,255,.1); }
+    .nav-links > li > a.active {
+      background: rgba(255,255,255,.1);
+      border-bottom: 2px solid var(--teal);
+      border-radius: 7px 7px 0 0;
+    }
+
+    .more-wrap { position: relative; }
+    .more-btn {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      color: var(--white); border-radius: 7px;
+    }
+    .more-btn:hover { background: rgba(255,255,255,.18); }
+    .chevron { font-size: .65rem; transition: transform .2s; display: inline-block; }
+    .more-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+    .mega-menu {
+      display: none; position: absolute;
+      top: calc(100% + 14px); left: 50%;
+      transform: translateX(-50%);
+      background: var(--white); border-radius: 14px;
+      box-shadow: 0 12px 48px rgba(0,0,0,.18);
+      width: 440px; padding: 22px 24px 18px; z-index: 2000;
+    }
+    .mega-menu.open { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+
+    .mm-group { margin-bottom: 14px; }
+    .mm-group h5 {
+      font-size: .68rem; font-weight: 700;
+      letter-spacing: .09em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+      padding-bottom: 5px; border-bottom: 1px solid #e9eef5;
+    }
+    .mm-group a {
+      display: block; color: var(--text);
+      text-decoration: none; font-size: .88rem;
+      padding: 5px 8px; border-radius: 6px;
+      transition: background .15s, color .15s;
+    }
+    .mm-group a:hover, .mm-group a.active { background: #f0fdfa; color: var(--teal); }
+
+    .nav-right { display: flex; align-items: center; gap: 8px; margin-left: 20px; flex-shrink: 0; }
+    .icon-btn {
+      background: transparent; border: none; color: var(--white);
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .18s; position: relative;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,.12); }
+    .badge {
+      position: absolute; top: 3px; right: 3px;
+      background: var(--teal); color: var(--white);
+      border-radius: 50%; width: 16px; height: 16px;
+      font-size: .58rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--navy);
+    }
+    .btn-book {
+      background: var(--teal); color: var(--white);
+      border: none; padding: 9px 20px; border-radius: 24px;
+      font-weight: 600; font-size: .88rem;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .btn-book:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+
+    .mobile-nav {
+      display: none; flex-direction: column;
+      background: var(--navy); border-top: 1px solid rgba(255,255,255,.08);
+      padding: 12px 24px 20px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      color: rgba(255,255,255,.85); text-decoration: none;
+      padding: 10px 0; font-size: .93rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+
+    /* ============================================================
+       MAIN
+    ============================================================ */
+    main {
+      flex: 1;
+      max-width: 1200px; margin: 0 auto;
+      width: 100%; padding: 48px 24px 64px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      font-size: .82rem; color: var(--muted);
+      margin-bottom: 20px; display: flex; align-items: center; gap: 6px;
+    }
+    .breadcrumb a { color: var(--teal); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    /* Hero heading */
+    .page-hero {
+      text-align: center; margin-bottom: 52px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--teal-lite); color: var(--teal-dark);
+      border: 1px solid #99f6e4;
+      font-size: .8rem; font-weight: 700;
+      padding: 5px 14px; border-radius: 20px;
+      margin-bottom: 16px; letter-spacing: .05em; text-transform: uppercase;
+    }
+    .page-h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.4rem; font-weight: 800;
+      color: var(--navy); margin-bottom: 10px; line-height: 1.2;
+    }
+    .page-h1 span { color: var(--teal); }
+    .page-sub {
+      color: var(--muted); font-size: 1.05rem; max-width: 520px; margin: 0 auto;
+    }
+
+    /* Section title */
+    .sec-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--navy);
+      margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+    }
+    .sec-title::after {
+      content: ''; flex: 1; height: 2px;
+      background: linear-gradient(to right, var(--teal), transparent);
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       OFFER CARDS ROW
+    ============================================================ */
+    .offers-section { margin-bottom: 52px; }
+
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .offer-card {
+      border-radius: 20px; padding: 28px 24px;
+      position: relative; overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+      cursor: default;
+      animation: fadeUp .4s ease both;
+    }
+    .offer-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,.14); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .offer-card:nth-child(1) { animation-delay: .05s; }
+    .offer-card:nth-child(2) { animation-delay: .12s; }
+    .offer-card:nth-child(3) { animation-delay: .19s; }
+
+    /* Card variants */
+    .offer-card.teal {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      color: var(--white);
+      box-shadow: 0 8px 32px rgba(20,184,166,.28);
+    }
+    .offer-card.amber {
+      background: linear-gradient(135deg, var(--amber) 0%, #d97706 100%);
+      color: var(--white);
+      box-shadow: 0 8px 32px rgba(245,158,11,.28);
+    }
+    .offer-card.navy {
+      background: linear-gradient(135deg, var(--navy) 0%, #1b3058 100%);
+      color: var(--white);
+      box-shadow: 0 8px 32px rgba(16,29,50,.28);
+    }
+
+    /* Decorative circle */
+    .offer-card::before {
+      content: ''; position: absolute;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      top: -50px; right: -40px;
+    }
+    .offer-card::after {
+      content: ''; position: absolute;
+      width: 90px; height: 90px; border-radius: 50%;
+      background: rgba(255,255,255,.06);
+      bottom: -20px; left: 20px;
+    }
+
+    .offer-icon {
+      font-size: 2rem; margin-bottom: 14px;
+      position: relative; z-index: 1;
+    }
+    .offer-pct {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.8rem; font-weight: 800;
+      line-height: 1; margin-bottom: 6px;
+      position: relative; z-index: 1;
+    }
+    .offer-label {
+      font-weight: 600; font-size: 1rem;
+      margin-bottom: 10px;
+      position: relative; z-index: 1;
+    }
+    .offer-desc {
+      font-size: .82rem; opacity: .8;
+      line-height: 1.55;
+      position: relative; z-index: 1;
+    }
+    .offer-code-tag {
+      display: inline-block; margin-top: 14px;
+      background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.35);
+      padding: 5px 12px; border-radius: 20px;
+      font-size: .78rem; font-weight: 700;
+      letter-spacing: .06em; font-family: 'Courier New', monospace;
+      position: relative; z-index: 1; cursor: pointer;
+      transition: background .2s;
+    }
+    .offer-code-tag:hover { background: rgba(255,255,255,.28); }
+    .offer-code-tag::before { content: '📋 '; font-family: sans-serif; }
+
+    /* ============================================================
+       PROMO & DISCOUNT CALCULATOR
+    ============================================================ */
+    .calc-section { margin-bottom: 52px; }
+
+    .calc-card {
+      background: var(--white);
+      border-radius: 24px; padding: 36px;
+      box-shadow: 0 4px 32px rgba(16,29,50,.09);
+    }
+
+    /* Inputs row */
+    .calc-inputs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field label {
+      font-size: .85rem; font-weight: 600; color: var(--navy);
+    }
+    .field-hint { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+
+    .input-wrap { position: relative; }
+    .input-prefix {
+      position: absolute; left: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted); font-size: .88rem; font-weight: 600;
+      pointer-events: none; user-select: none;
+    }
+    .has-prefix input { padding-left: 52px; }
+
+    .field input {
+      width: 100%; padding: 13px 16px;
+      border: 1.5px solid var(--border); border-radius: 11px;
+      font-size: .95rem; font-family: 'Inter', sans-serif;
+      color: var(--text); background: var(--grey);
+      transition: border-color .2s, box-shadow .2s; outline: none;
+    }
+    .field input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(20,184,166,.12);
+      background: var(--white);
+    }
+    .field input.error  { border-color: var(--danger); }
+    .field input.valid  { border-color: var(--success); }
+
+    /* Promo row */
+    .promo-row {
+      display: flex; gap: 12px; align-items: flex-end;
+      margin-bottom: 24px;
+    }
+    .promo-row .field { flex: 1; }
+
+    .btn-apply {
+      padding: 13px 28px;
+      background: var(--navy); color: var(--white);
+      border: none; border-radius: 11px;
+      font-size: .93rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+      white-space: nowrap; flex-shrink: 0;
+      transition: background .2s, transform .15s;
+    }
+    .btn-apply:hover { background: #1a3055; transform: translateY(-1px); }
+
+    /* Promo feedback */
+    .promo-feedback {
+      font-size: .85rem; font-weight: 600;
+      padding: 10px 14px; border-radius: 9px;
+      margin-bottom: 20px; display: none;
+      align-items: center; gap: 8px;
+    }
+    .promo-feedback.show { display: flex; }
+    .promo-feedback.invalid { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+    .promo-feedback.valid   { background: #f0fdf4; color: #166534;       border: 1px solid #bbf7d0; }
+
+    /* Divider */
+    .calc-divider { border: none; border-top: 1px solid var(--border); margin: 0 0 24px; }
+
+    /* Price summary */
+    .price-summary {
+      background: var(--grey);
+      border-radius: 16px; padding: 24px;
+    }
+    .price-summary h4 {
+      font-family: 'Poppins', sans-serif;
+      font-size: .9rem; font-weight: 700; color: var(--navy);
+      margin-bottom: 16px; text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .price-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      font-size: .93rem;
+    }
+    .price-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .price-label { color: var(--muted); font-weight: 500; }
+    .price-value { font-weight: 700; color: var(--navy); font-size: 1rem; }
+    .price-row.discount .price-value { color: var(--success); }
+    .price-row.total {
+      margin-top: 4px; padding-top: 14px;
+      border-top: 2px solid var(--border);
+    }
+    .price-row.total .price-label { font-weight: 700; color: var(--navy); font-size: 1rem; }
+    .price-row.total .price-value {
+      font-size: 1.3rem; color: var(--teal);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Applied badge */
+    .applied-badge {
+      display: none; align-items: center; gap: 6px;
+      background: var(--teal-lite); border: 1px solid #99f6e4;
+      color: var(--teal-dark); font-size: .8rem; font-weight: 700;
+      padding: 6px 14px; border-radius: 20px; margin-bottom: 16px;
+      letter-spacing: .04em;
+    }
+    .applied-badge.show { display: inline-flex; }
+
+    /* ============================================================
+       MOBILE PERKS SECTION
+    ============================================================ */
+    .perks-section { margin-bottom: 52px; }
+
+    .perks-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+
+    /* Student discount highlight card */
+    .perk-card {
+      background: var(--white);
+      border-radius: 20px; padding: 28px;
+      box-shadow: 0 2px 18px rgba(16,29,50,.08);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .perk-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(16,29,50,.13); }
+
+    .perk-card.highlight {
+      background: linear-gradient(135deg, var(--navy) 0%, #1b3058 100%);
+      color: var(--white);
+    }
+    .perk-card.highlight .perk-label { color: rgba(255,255,255,.65); }
+
+    .perk-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .perk-pct {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.4rem; font-weight: 800;
+      color: var(--teal); line-height: 1; margin-bottom: 6px;
+    }
+    .perk-card.highlight .perk-pct { color: var(--amber); }
+    .perk-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      margin-bottom: 6px;
+    }
+    .perk-label { font-size: .85rem; color: var(--muted); line-height: 1.55; }
+
+    /* Price card */
+    .final-price-card {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      border-radius: 20px; padding: 28px;
+      box-shadow: 0 8px 32px rgba(20,184,166,.25);
+      color: var(--white);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .fpc-label {
+      font-size: .78rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      opacity: .75; margin-bottom: 8px;
+    }
+    .fpc-price {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.2rem; font-weight: 800; line-height: 1;
+      margin-bottom: 6px;
+    }
+    .fpc-note { font-size: .82rem; opacity: .75; }
+    .fpc-saving {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+      padding: 4px 12px; border-radius: 20px;
+      font-size: .78rem; font-weight: 700;
+      margin-top: 12px; align-self: flex-start;
+    }
+
+    /* ============================================================
+       HOW IT WORKS
+    ============================================================ */
+    .how-section { margin-bottom: 52px; }
+
+    .steps-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    .step-card {
+      background: var(--white); border-radius: 16px;
+      padding: 24px 20px; text-align: center;
+      box-shadow: 0 2px 14px rgba(16,29,50,.07);
+      transition: transform .22s;
+    }
+    .step-card:hover { transform: translateY(-4px); }
+    .step-num {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--navy); color: var(--white);
+      font-family: 'Poppins', sans-serif; font-weight: 700; font-size: .95rem;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+    }
+    .step-title { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: .93rem; color: var(--navy); margin-bottom: 6px; }
+    .step-desc  { font-size: .82rem; color: var(--muted); line-height: 1.55; }
+
+    /* ============================================================
+       BOTTOM CTA
+    ============================================================ */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--navy) 0%, #1b3058 100%);
+      border-radius: 20px; padding: 44px 32px;
+      text-align: center;
+    }
+    .cta-banner h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem; font-weight: 700; color: var(--white); margin-bottom: 8px;
+    }
+    .cta-banner p { color: rgba(255,255,255,.65); font-size: .95rem; margin-bottom: 26px; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--teal); color: var(--white);
+      border: none; padding: 13px 28px; border-radius: 26px;
+      font-weight: 600; font-size: .95rem;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+      text-decoration: none; transition: background .2s, transform .15s;
+    }
+    .btn-cta:hover { background: var(--teal-dark); transform: translateY(-2px); }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer { background: #0a1221; color: var(--white); padding: 52px 24px 36px; }
+    .foot-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.9fr 1fr 1fr; gap: 48px;
+    }
+    .foot-brand h2 {
+      font-family: 'Poppins', sans-serif; font-size: 1.05rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .04em;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .foot-brand p { color: rgba(255,255,255,.58); font-size: .88rem; line-height: 1.72; margin-bottom: 20px; max-width: 290px; }
+    .foot-copy { color: rgba(255,255,255,.35); font-size: .8rem; }
+    .foot-col h4 {
+      font-family: 'Poppins', sans-serif; font-size: .68rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 16px;
+    }
+    .foot-col ul { list-style: none; }
+    .foot-col ul li { margin-bottom: 11px; }
+    .foot-col ul li a { color: rgba(255,255,255,.62); text-decoration: none; font-size: .88rem; transition: color .2s; }
+    .foot-col ul li a:hover { color: var(--teal); }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    .toast {
+      position: fixed; bottom: 28px; right: 28px;
+      background: var(--navy); color: var(--white);
+      padding: 14px 20px; border-radius: 12px; font-size: .88rem;
+      box-shadow: 0 10px 36px rgba(0,0,0,.26);
+      display: flex; align-items: center; gap: 10px; z-index: 9999;
+      transform: translateY(90px); opacity: 0;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+      border-left: 4px solid var(--teal); max-width: 320px;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .steps-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 900px) {
+      .offers-grid { grid-template-columns: repeat(2, 1fr); }
+      .perks-grid  { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .btn-book { display: none; }
+      .hamburger { display: flex; }
+      .nav-wrap { justify-content: space-between; }
+
+      .foot-inner { grid-template-columns: 1fr; gap: 32px; }
+      .offers-grid { grid-template-columns: 1fr; }
+      .calc-inputs { grid-template-columns: 1fr; }
+      .promo-row { flex-direction: column; }
+      .btn-apply { width: 100%; }
+      .steps-row { grid-template-columns: 1fr; }
+      .page-h1 { font-size: 1.8rem; }
+      .cta-banner { padding: 32px 20px; }
+      .calc-card { padding: 24px 20px; }
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 28px 16px 48px; }
+      .perks-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================================================================
+     HEADER
+================================================================ -->
+<header>
+  <div class="nav-wrap">
+    <a href="home.html" class="logo" aria-label="RentRide Home">
+      <svg style="width:28px;height:20px;" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 15l3-7h22l3 7" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"/>
+        <rect x="1" y="14" width="34" height="7" rx="3" fill="#14B8A6" fill-opacity=".18" stroke="#14B8A6" stroke-width="1.5"/>
+        <circle cx="9" cy="21" r="2.5" fill="#14B8A6"/>
+        <circle cx="27" cy="21" r="2.5" fill="#14B8A6"/>
+        <rect x="7" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+        <rect x="21" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+      </svg>
+      <span class="logo-name"><span class="r">Rent</span><span class="g">Ride</span></span>
+    </a>
+
+    <ul class="nav-links" role="navigation" aria-label="Primary navigation">
+      <li><a href="home.html">⌂ Home</a></li>
+      <li><a href="fleet.html">Fleet</a></li>
+      <li><a href="booking.html">Booking</a></li>
+      <li><a href="addons.html">Add-ons</a></li>
+      <li class="more-wrap">
+        <button class="more-btn" id="moreBtn" aria-haspopup="true" aria-expanded="false">
+          More <span class="chevron">▾</span>
+        </button>
+        <div class="mega-menu" id="megaMenu" role="menu">
+          <!-- Left column -->
+          <div>
+            <div class="mm-group">
+              <h5>Help &amp; Policies</h5>
+              <a href="faq.html">FAQ</a>
+              <a href="support.html">Support &amp; Help</a>
+            </div>
+            <div class="mm-group">
+              <h5>Vehicles &amp; Booking</h5>
+              <a href="vehicle-details.html">Vehicle Details</a>
+              <a href="confirmation.html">Confirmation</a>
+            </div>
+            <div class="mm-group">
+              <h5>Account &amp; Offers</h5>
+              <a href="saved-trips.html">Saved Trips</a>
+              <a href="deals.html" class="active">Deals</a>
+            </div>
+            <div class="mm-group">
+              <h5>Planning &amp; Tools</h5>
+              <a href="trip-planner.html">Trip Planner</a>
+              <a href="calculator.html">Calculator</a>
+            </div>
+          </div>
+          <!-- Right column -->
+          <div>
+            <div class="mm-group">
+              <h5>&nbsp;</h5>
+              <a href="safety.html">Safety &amp; Policies</a>
+            </div>
+            <div class="mm-group"><h5>&nbsp;</h5></div>
+            <div class="mm-group">
+              <h5>&nbsp;</h5>
+              <a href="account.html">Account</a>
+            </div>
+            <div class="mm-group">
+              <h5>&nbsp;</h5>
+              <a href="locations.html">Locations</a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Saved cars">
+        <svg width="20" height="18" viewBox="0 0 24 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <span class="badge">0</span>
+      </button>
+      <button class="icon-btn" aria-label="Account" onclick="location.href='account.html'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </button>
+      <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="home.html">⌂ Home</a>
+    <a href="fleet.html">Fleet</a>
+    <a href="booking.html">Booking</a>
+    <a href="addons.html">Add-ons</a>
+    <a href="saved-trips.html">Saved Trips</a>
+    <a href="account.html">Account</a>
+    <a href="faq.html">FAQ</a>
+    <a href="deals.html">Deals</a>
+  </nav>
+</header>
+
+<!-- ================================================================
+     MAIN
+================================================================ -->
+<main>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="home.html">Home</a>
+    <span>›</span>
+    <span aria-current="page">Deals &amp; Student Perks</span>
+  </nav>
+
+  <!-- ── PAGE HERO ── -->
+  <div class="page-hero">
+    <span class="hero-eyebrow">🏷️ Exclusive Offers</span>
+    <h1 class="page-h1">Deals &amp; <span>Student Perks</span></h1>
+    <p class="page-sub">Save more on your next ride with exclusive offers, student discounts and seasonal promos.</p>
+  </div>
+
+  <!-- ================================================================
+       SPECIAL OFFER CARDS
+  ================================================================ -->
+  <section class="offers-section" aria-labelledby="offersHeading">
+    <h2 class="sec-title" id="offersHeading">Special Offers</h2>
+
+    <div class="offers-grid">
+
+      <!-- Card 1 – Weekend Deal -->
+      <div class="offer-card teal" role="article">
+        <div class="offer-icon" aria-hidden="true">🌅</div>
+        <div class="offer-pct">10%</div>
+        <div class="offer-label">OFF – Weekend Deal</div>
+        <div class="offer-desc">Book for a weekend and enjoy 10% off your total rental. Valid Friday to Sunday only.</div>
+        <span class="offer-code-tag" role="button" tabindex="0"
+              onclick="copyCode('WEEKEND10')"
+              onkeydown="if(event.key==='Enter')copyCode('WEEKEND10')"
+              title="Click to copy code"
+              aria-label="Copy promo code WEEKEND10">
+          WEEKEND10
+        </span>
+      </div>
+
+      <!-- Card 2 – Student Discount -->
+      <div class="offer-card amber" role="article">
+        <div class="offer-icon" aria-hidden="true">🎓</div>
+        <div class="offer-pct">15%</div>
+        <div class="offer-label">OFF – Student Discount</div>
+        <div class="offer-desc">Valid student ID required. Applies to all car categories. Best deal for university students!</div>
+        <span class="offer-code-tag" role="button" tabindex="0"
+              onclick="copyCode('STUDENT15')"
+              onkeydown="if(event.key==='Enter')copyCode('STUDENT15')"
+              title="Click to copy code"
+              aria-label="Copy promo code STUDENT15">
+          STUDENT15
+        </span>
+      </div>
+
+      <!-- Card 3 – Special Offer -->
+      <div class="offer-card navy" role="article">
+        <div class="offer-icon" aria-hidden="true">⭐</div>
+        <div class="offer-pct">20%</div>
+        <div class="offer-label">OFF – Special Offer</div>
+        <div class="offer-desc">Our biggest saving! Limited-time special offer on all premium and luxury vehicles.</div>
+        <span class="offer-code-tag" role="button" tabindex="0"
+              onclick="copyCode('SPECIAL20')"
+              onkeydown="if(event.key==='Enter')copyCode('SPECIAL20')"
+              title="Click to copy code"
+              aria-label="Copy promo code SPECIAL20">
+          SPECIAL20
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================
+       PROMO & DISCOUNT CALCULATOR
+  ================================================================ -->
+  <section class="calc-section" aria-labelledby="calcHeading">
+    <h2 class="sec-title" id="calcHeading">Promo &amp; Discount Calculator</h2>
+
+    <div class="calc-card">
+
+      <!-- Two inputs side by side (desktop) -->
+      <div class="calc-inputs">
+        <div class="field">
+          <label for="rentalDays">Rental Days</label>
+          <div class="input-wrap">
+            <input type="number" id="rentalDays" placeholder="e.g. 3" min="1" max="365"
+                   oninput="recalculate()" aria-describedby="daysHint" />
+          </div>
+          <span class="field-hint" id="daysHint">Daily rate: PKR 8,000/day</span>
+        </div>
+
+        <div class="field">
+          <label for="dailyRate">Daily Rate (PKR)</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix" aria-hidden="true">PKR</span>
+            <input type="number" id="dailyRate" value="8000" min="1"
+                   oninput="recalculate()" aria-label="Daily rental rate in PKR" />
+          </div>
+          <span class="field-hint">Adjust to match your chosen vehicle</span>
+        </div>
+      </div>
+
+      <!-- Promo code row -->
+      <div class="promo-row" role="group" aria-label="Promo code entry">
+        <div class="field">
+          <label for="promoCode">Promo Code</label>
+          <input type="text" id="promoCode" placeholder="Enter promo code (e.g. STUDENT15)"
+                 style="text-transform:uppercase;" oninput="this.value=this.value.toUpperCase()" />
+        </div>
+        <button class="btn-apply" id="applyBtn" onclick="applyPromo()">Apply Code</button>
+      </div>
+
+      <!-- Applied badge -->
+      <div class="applied-badge" id="appliedBadge" role="status" aria-live="polite">
+        ✅ Code applied: <strong id="appliedCodeLabel"></strong>
+      </div>
+
+      <!-- Promo feedback message -->
+      <div class="promo-feedback" id="promoFeedback" role="alert" aria-live="assertive"></div>
+
+      <hr class="calc-divider" />
+
+      <!-- Price summary -->
+      <div class="price-summary" aria-label="Price summary">
+        <h4>Price Summary</h4>
+        <div class="price-row">
+          <span class="price-label">Rental Days</span>
+          <span class="price-value" id="summDays">0 days</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Daily Rate</span>
+          <span class="price-value" id="summRate">PKR 8,000</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Subtotal</span>
+          <span class="price-value" id="summSubtotal">PKR 0</span>
+        </div>
+        <div class="price-row discount">
+          <span class="price-label">Discount (<span id="summDiscPct">0</span>% off)</span>
+          <span class="price-value" id="summDiscount">– PKR 0</span>
+        </div>
+        <div class="price-row total">
+          <span class="price-label">Final Total</span>
+          <span class="price-value" id="summTotal">PKR 0</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================
+       DEALS & PERKS SECTION  (mobile-focused layout)
+  ================================================================ -->
+  <section class="perks-section" aria-labelledby="perksHeading">
+    <h2 class="sec-title" id="perksHeading">Membership Perks</h2>
+
+    <div class="perks-grid">
+
+      <!-- Student discount highlight -->
+      <div class="perk-card highlight" role="article">
+        <div class="perk-icon" aria-hidden="true">🎓</div>
+        <div class="perk-pct">15%</div>
+        <div class="perk-name">Student Discount</div>
+        <div class="perk-label" style="color:rgba(255,255,255,.65);">
+          Exclusive 15% off for university students. Use code <strong style="color:var(--amber);">STUDENT15</strong> at checkout.
+        </div>
+      </div>
+
+      <!-- Final price live card -->
+      <div class="final-price-card" role="region" aria-label="Current calculated final price" aria-live="polite">
+        <div class="fpc-label">Your Final Price</div>
+        <div class="fpc-price" id="fpcPrice">PKR 0</div>
+        <div class="fpc-note" id="fpcNote">Enter rental days above to calculate</div>
+        <span class="fpc-saving" id="fpcSaving" style="display:none;">
+          🎉 You save <span id="fpcSaveAmt"></span>
+        </span>
+      </div>
+
+      <!-- Weekend perk -->
+      <div class="perk-card" role="article">
+        <div class="perk-icon" aria-hidden="true">🌅</div>
+        <div class="perk-pct">10%</div>
+        <div class="perk-name">Weekend Deal</div>
+        <div class="perk-label">Save 10% on all bookings made for Friday–Sunday. Use code <strong>WEEKEND10</strong>.</div>
+      </div>
+
+      <!-- Loyalty perk -->
+      <div class="perk-card" role="article">
+        <div class="perk-icon" aria-hidden="true">⭐</div>
+        <div class="perk-pct">20%</div>
+        <div class="perk-name">Special Offer</div>
+        <div class="perk-label">Our biggest saving — limited time only on premium & luxury cars. Use code <strong>SPECIAL20</strong>.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================
+       HOW IT WORKS
+  ================================================================ -->
+  <section class="how-section" aria-labelledby="howHeading">
+    <h2 class="sec-title" id="howHeading">How to Redeem</h2>
+    <div class="steps-row">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-title">Pick a Deal</div>
+        <div class="step-desc">Browse the offer cards above and choose the discount that suits your trip.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-title">Copy the Code</div>
+        <div class="step-desc">Click the code tag on any card to copy it instantly to your clipboard.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-title">Enter &amp; Apply</div>
+        <div class="step-desc">Paste the code in the calculator above and click "Apply Code" to see your savings.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-title">Book &amp; Save</div>
+        <div class="step-desc">Use your final price when booking. The discount is automatically applied!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <div class="cta-banner" role="complementary">
+    <h3>Ready to Hit the Road?</h3>
+    <p>Apply your promo code, check your savings and book your car in minutes.</p>
+    <a href="fleet.html" class="btn-cta" role="button">🚗 Browse Cars &amp; Book</a>
+  </div>
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert" aria-live="assertive">
+  <span>✅</span>
+  <span id="toastMsg">Done.</span>
+</div>
+
+<!-- ================================================================
+     FOOTER
+================================================================ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h2>Book Smarter – Travel Better</h2>
+      <p>Transparent car rental policies, flexible bookings, and 24/7 roadside assistance.</p>
+      <span class="foot-copy">© 2026 RentRide. All rights reserved.</span>
+    </div>
+    <div class="foot-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="booking.html">Booking</a></li>
+        <li><a href="account.html">Account</a></li>
+        <li><a href="help.html">Help</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="contact.html">Contact us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of service</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+  'use strict';
+
+  /* ─── Valid promo codes ──────────────────────────────────────── */
+  const PROMO_CODES = {
+    'WEEKEND10': { discount: 10, label: 'Weekend Deal (10% off)' },
+    'STUDENT15': { discount: 15, label: 'Student Discount (15% off)' },
+    'SPECIAL20': { discount: 20, label: 'Special Offer (20% off)' }
+  };
+
+  const LS_KEY = 'rr_applied_promos';
+
+  /* ─── State ──────────────────────────────────────────────────── */
+  let currentDiscount = 0;   // percent
+  let currentCode     = '';
+
+  /* ─── Format PKR ─────────────────────────────────────────────── */
+  function formatPKR(val) {
+    return 'PKR ' + Math.round(val).toLocaleString('en-PK');
+  }
+
+  /* ─── Recalculate prices ─────────────────────────────────────── */
+  function recalculate() {
+    const days = parseFloat(document.getElementById('rentalDays').value) || 0;
+    const rate = parseFloat(document.getElementById('dailyRate').value)  || 0;
+
+    const subtotal     = days * rate;
+    const discountAmt  = subtotal * (currentDiscount / 100);
+    const finalTotal   = subtotal - discountAmt;
+
+    // Summary card
+    document.getElementById('summDays').textContent     = days + (days === 1 ? ' day' : ' days');
+    document.getElementById('summRate').textContent     = formatPKR(rate);
+    document.getElementById('summSubtotal').textContent = formatPKR(subtotal);
+    document.getElementById('summDiscPct').textContent  = currentDiscount;
+    document.getElementById('summDiscount').textContent = '– ' + formatPKR(discountAmt);
+    document.getElementById('summTotal').textContent    = formatPKR(finalTotal);
+
+    // Live final price card
+    document.getElementById('fpcPrice').textContent = formatPKR(finalTotal);
+    document.getElementById('fpcNote').textContent  = days > 0
+      ? (currentDiscount > 0 ? currentDiscount + '% discount applied!' : 'No discount applied yet.')
+      : 'Enter rental days above to calculate';
+
+    const savingEl = document.getElementById('fpcSaving');
+    if (discountAmt > 0 && days > 0) {
+      savingEl.style.display = 'inline-flex';
+      document.getElementById('fpcSaveAmt').textContent = formatPKR(discountAmt);
+    } else {
+      savingEl.style.display = 'none';
+    }
+  }
+
+  /* ─── Apply promo code ───────────────────────────────────────── */
+  function applyPromo() {
+    const input    = document.getElementById('promoCode');
+    const code     = input.value.trim().toUpperCase();
+    const feedback = document.getElementById('promoFeedback');
+    const badge    = document.getElementById('appliedBadge');
+    const codeInp  = document.getElementById('promoCode');
+
+    // Clear previous states
+    feedback.className  = 'promo-feedback';
+    feedback.textContent = '';
+    codeInp.classList.remove('error', 'valid');
+
+    if (!code) {
+      setFeedback('invalid', '⚠️ Please enter a promo code first.');
+      codeInp.classList.add('error');
+      codeInp.focus();
+      return;
+    }
+
+    if (PROMO_CODES[code]) {
+      const promo = PROMO_CODES[code];
+      currentDiscount = promo.discount;
+      currentCode     = code;
+
+      // Update UI
+      codeInp.classList.add('valid');
+      setFeedback('valid', '🎉 Promo code accepted! ' + promo.label + ' applied.');
+      badge.classList.add('show');
+      document.getElementById('appliedCodeLabel').textContent = code;
+
+      // Persist to localStorage
+      saveAppliedCode(code, promo);
+
+      recalculate();
+      showToast('✨ ' + promo.label + ' applied successfully!');
+    } else {
+      currentDiscount = 0;
+      currentCode     = '';
+      codeInp.classList.add('error');
+      setFeedback('invalid', '❌ Invalid promo code. Please try again.');
+      badge.classList.remove('show');
+      document.getElementById('appliedCodeLabel').textContent = '';
+      recalculate();
+    }
+  }
+
+  function setFeedback(type, msg) {
+    const el = document.getElementById('promoFeedback');
+    el.className   = 'promo-feedback show ' + type;
+    el.textContent = msg;
+  }
+
+  /* ─── localStorage ───────────────────────────────────────────── */
+  function saveAppliedCode(code, promo) {
+    try {
+      let history = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+      // Avoid duplicate entries for the same code
+      if (!history.find(h => h.code === code)) {
+        history.push({
+          code,
+          label:     promo.label,
+          discount:  promo.discount,
+          appliedAt: new Date().toISOString()
+        });
+        localStorage.setItem(LS_KEY, JSON.stringify(history));
+      }
+    } catch(e) {}
+  }
+
+  /* ─── Copy code to clipboard ─────────────────────────────────── */
+  function copyCode(code) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('📋 Code "' + code + '" copied to clipboard!');
+        // Auto-fill the promo input
+        document.getElementById('promoCode').value = code;
+      });
+    } else {
+      // Fallback
+      document.getElementById('promoCode').value = code;
+      showToast('📋 Code "' + code + '" pasted into the calculator!');
+    }
+  }
+
+  /* ─── Toast ──────────────────────────────────────────────────── */
+  let _toastTimer;
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    el.classList.add('show');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+  }
+
+  /* ─── More dropdown ──────────────────────────────────────────── */
+  const moreBtn  = document.getElementById('moreBtn');
+  const megaMenu = document.getElementById('megaMenu');
+  moreBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = megaMenu.classList.toggle('open');
+    moreBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', () => {
+    megaMenu.classList.remove('open');
+    moreBtn.setAttribute('aria-expanded','false');
+  });
+  megaMenu.addEventListener('click', e => e.stopPropagation());
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { megaMenu.classList.remove('open'); moreBtn.setAttribute('aria-expanded','false'); }
+  });
+
+  /* ─── Hamburger ──────────────────────────────────────────────── */
+  document.getElementById('hamburger').addEventListener('click', () => {
+    const nav  = document.getElementById('mobileNav');
+    const btn  = document.getElementById('hamburger');
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+
+  /* ─── Enter key on promo field ───────────────────────────────── */
+  document.getElementById('promoCode').addEventListener('keydown', e => {
+    if (e.key === 'Enter') applyPromo();
+  });
+
+  /* ─── Init ───────────────────────────────────────────────────── */
+  recalculate();
+</script>
+
+</body>
+</html>

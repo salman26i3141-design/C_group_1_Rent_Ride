@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saved Cars &amp; Trips | RentRide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & VARIABLES
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #101D32;
+      --navy-deep:  #0a1221;
+      --teal:       #14B8A6;
+      --teal-dark:  #0d9488;
+      --grey:       #F4F7FA;
+      --amber:      #F59E0B;
+      --white:      #ffffff;
+      --text:       #1e293b;
+      --muted:      #64748b;
+      --danger:     #ef4444;
+      --danger-dk:  #dc2626;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--grey);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    header {
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 16px rgba(0,0,0,.35);
+    }
+
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* Logo */
+    .logo {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      margin-right: 32px;
+    }
+    .logo-svg { width: 28px; height: 20px; }
+    .logo-name { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1.25rem; line-height: 1; }
+    .logo-name .r  { color: var(--white); }
+    .logo-name .g  { color: var(--teal); }
+
+    /* Nav links */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex: 1;
+    }
+    .nav-links > li > a,
+    .more-btn {
+      color: rgba(255,255,255,.88);
+      text-decoration: none;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      padding: 7px 13px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: background .18s, color .18s;
+      cursor: pointer;
+    }
+    .nav-links > li > a:hover,
+    .nav-links > li > a.active { background: rgba(255,255,255,.1); color: var(--white); }
+    .nav-links > li > a.active { border-bottom: 2px solid var(--teal); border-radius: 7px 7px 0 0; }
+
+    .home-icon { font-size: .85rem; }
+
+    /* More dropdown */
+    .more-wrap { position: relative; }
+    .more-btn {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      color: var(--white);
+      border-radius: 7px;
+    }
+    .more-btn:hover { background: rgba(255,255,255,.18); }
+    .more-btn .chevron { font-size: .65rem; transition: transform .2s; }
+    .more-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+    .mega-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: 0 12px 48px rgba(0,0,0,.18);
+      width: 440px;
+      padding: 22px 24px 18px;
+      z-index: 2000;
+    }
+    .mega-menu.open { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+
+    .mm-group { margin-bottom: 14px; }
+    .mm-group h5 {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #e9eef5;
+    }
+    .mm-group a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      font-size: .88rem;
+      padding: 5px 8px;
+      border-radius: 6px;
+      transition: background .15s, color .15s;
+    }
+    .mm-group a:hover, .mm-group a.active { background: #f0fdfa; color: var(--teal); }
+
+    /* Right side */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 20px;
+      flex-shrink: 0;
+    }
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--white);
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background .18s;
+      position: relative;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,.12); }
+    .badge {
+      position: absolute; top: 3px; right: 3px;
+      background: var(--teal); color: var(--white);
+      border-radius: 50%; width: 16px; height: 16px;
+      font-size: .58rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--navy);
+    }
+
+    .btn-book {
+      background: var(--teal);
+      color: var(--white);
+      border: none;
+      padding: 9px 20px;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: .88rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .btn-book:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none; border: none;
+      cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      width: 24px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all .3s;
+    }
+
+    /* Mobile nav */
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 12px 24px 20px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      color: rgba(255,255,255,.85);
+      text-decoration: none;
+      padding: 10px 0;
+      font-size: .93rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+
+    /* ============================================================
+       MAIN
+    ============================================================ */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 44px 24px 56px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      font-size: .82rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .breadcrumb a { color: var(--teal); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+
+    /* Page heading */
+    .page-h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .page-sub {
+      color: var(--muted);
+      font-size: .95rem;
+      margin-bottom: 36px;
+    }
+
+    /* Section header */
+    .sec-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sec-title::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(to right, var(--teal) 0%, transparent 100%);
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       CAR CARDS GRID
+    ============================================================ */
+    .cars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 52px;
+    }
+
+    .car-card {
+      background: var(--white);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 2px 18px rgba(16,29,50,.08);
+      transition: transform .25s, box-shadow .25s;
+      animation: fadeUp .4s ease both;
+    }
+    .car-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 36px rgba(16,29,50,.14);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .car-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #dde6f0 0%, #c5d2e0 100%);
+    }
+    .car-img-fallback {
+      width: 100%; height: 200px;
+      background: linear-gradient(135deg, #dde6f0, #c5d2e0);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+    }
+    .img-wrap { position: relative; }
+    .car-pill {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--teal);
+      color: var(--white);
+      font-size: .7rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px;
+    }
+    .car-pill.amber { background: var(--amber); }
+    .car-pill.navy  { background: var(--navy); }
+
+    .card-body { padding: 18px 20px 20px; }
+    .car-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 5px;
+    }
+    .car-price {
+      font-weight: 600;
+      font-size: .97rem;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+    .car-price small { color: var(--muted); font-weight: 400; font-size: .82rem; }
+
+    .card-actions { display: flex; gap: 10px; }
+
+    .btn-remove {
+      background: transparent;
+      border: 1.5px solid var(--danger);
+      color: var(--danger);
+      padding: 8px 16px;
+      border-radius: 9px;
+      font-size: .85rem; font-weight: 500;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background .2s, color .2s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .btn-remove:hover { background: var(--danger); color: var(--white); }
+
+    .btn-view {
+      background: var(--teal);
+      border: none;
+      color: var(--white);
+      padding: 8px 16px;
+      border-radius: 9px;
+      font-size: .85rem; font-weight: 500;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background .2s;
+      flex: 1;
+    }
+    .btn-view:hover { background: var(--teal-dark); }
+
+    /* ============================================================
+       EMPTY STATE
+    ============================================================ */
+    .empty-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 64px 24px;
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 2px 18px rgba(16,29,50,.07);
+      margin-bottom: 52px;
+    }
+    .empty-state.show { display: flex; }
+    .empty-emoji { font-size: 4.5rem; margin-bottom: 18px; opacity: .55; }
+    .empty-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.35rem; font-weight: 600;
+      color: var(--navy); margin-bottom: 8px;
+    }
+    .empty-desc {
+      color: var(--muted); font-size: .92rem;
+      max-width: 300px; line-height: 1.65;
+      margin-bottom: 26px;
+    }
+
+    /* ============================================================
+       EXPLORE BUTTON
+    ============================================================ */
+    .btn-explore {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--teal); color: var(--white);
+      border: none; padding: 12px 26px;
+      border-radius: 26px;
+      font-weight: 600; font-size: .93rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .btn-explore:hover { background: var(--teal-dark); transform: translateY(-2px); }
+
+    /* ============================================================
+       UPCOMING TRIPS
+    ============================================================ */
+    .trips-section { margin-bottom: 52px; }
+
+    .trip-card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 2px 18px rgba(16,29,50,.08);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .trip-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(16,29,50,.13);
+    }
+
+    .trip-thumb {
+      width: 130px; height: 86px;
+      border-radius: 11px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #dde6f0, #c5d2e0);
+    }
+    .trip-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .trip-info { flex: 1; }
+    .trip-car {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600; font-size: 1rem;
+      color: var(--navy); margin-bottom: 7px;
+    }
+    .trip-route {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .88rem; color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .route-arr { color: var(--teal); font-size: 1rem; }
+    .trip-status-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #fef3c7; color: #92400e;
+      font-size: .75rem; font-weight: 600;
+      padding: 4px 11px; border-radius: 20px;
+    }
+
+    .btn-details {
+      background: transparent;
+      border: 1.5px solid var(--teal);
+      color: var(--teal);
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: .88rem; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+      transition: background .2s, color .2s;
+    }
+    .btn-details:hover { background: var(--teal); color: var(--white); }
+
+    /* ============================================================
+       EXPLORE CTA BANNER
+    ============================================================ */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--navy) 0%, #1b3058 100%);
+      border-radius: 20px;
+      padding: 44px 32px;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .cta-banner h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .cta-banner p {
+      color: rgba(255,255,255,.65);
+      font-size: .95rem; margin-bottom: 26px;
+    }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.52);
+      z-index: 3000;
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+    .overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 22px;
+      padding: 40px 36px;
+      max-width: 420px; width: 90%;
+      text-align: center;
+      box-shadow: 0 24px 72px rgba(0,0,0,.28);
+      animation: popIn .3s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes popIn {
+      from { transform: scale(.8); opacity: 0; }
+      to   { transform: scale(1);  opacity: 1; }
+    }
+
+    .modal-icon { font-size: 3.2rem; margin-bottom: 16px; }
+    .modal h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--navy); margin-bottom: 10px;
+    }
+    .modal p {
+      color: var(--muted); font-size: .91rem;
+      line-height: 1.65; margin-bottom: 28px;
+    }
+    .modal-btns {
+      display: flex; gap: 12px; justify-content: center;
+    }
+    .btn-cancel {
+      background: var(--grey); border: none;
+      color: var(--text);
+      padding: 11px 24px; border-radius: 10px;
+      font-size: .9rem; font-weight: 500;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-cancel:hover { background: #dde4ee; }
+    .btn-confirm {
+      background: var(--danger); border: none;
+      color: var(--white);
+      padding: 11px 24px; border-radius: 10px;
+      font-size: .9rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-confirm:hover { background: var(--danger-dk); }
+
+    /* ============================================================
+       TOAST
+    ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: .88rem;
+      box-shadow: 0 10px 36px rgba(0,0,0,.26);
+      display: flex; align-items: center; gap: 10px;
+      z-index: 9999;
+      transform: translateY(90px); opacity: 0;
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .35s;
+      border-left: 4px solid var(--teal);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: #0a1221;
+      color: var(--white);
+      padding: 52px 24px 36px;
+    }
+    .foot-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.9fr 1fr 1fr;
+      gap: 48px;
+    }
+    .foot-brand h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .04em;
+      color: var(--white); margin-bottom: 12px;
+    }
+    .foot-brand p {
+      color: rgba(255,255,255,.58);
+      font-size: .88rem; line-height: 1.72;
+      margin-bottom: 20px; max-width: 290px;
+    }
+    .foot-copy { color: rgba(255,255,255,.35); font-size: .8rem; }
+    .foot-col h4 {
+      font-family: 'Poppins', sans-serif;
+      font-size: .68rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 16px;
+    }
+    .foot-col ul { list-style: none; }
+    .foot-col ul li { margin-bottom: 11px; }
+    .foot-col ul li a {
+      color: rgba(255,255,255,.62);
+      text-decoration: none; font-size: .88rem;
+      transition: color .2s;
+    }
+    .foot-col ul li a:hover { color: var(--teal); }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .cars-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .btn-book { display: none; }
+      .hamburger { display: flex; }
+      .nav-wrap { justify-content: space-between; }
+      .foot-inner { grid-template-columns: 1fr; gap: 32px; }
+      .trip-card { flex-direction: column; align-items: flex-start; }
+      .trip-thumb { width: 100%; height: 160px; }
+      .btn-details { align-self: flex-start; }
+      .page-h1 { font-size: 1.65rem; }
+      .cta-banner { padding: 32px 20px; }
+    }
+
+    @media (max-width: 480px) {
+      main { padding: 28px 16px 48px; }
+      .modal { padding: 28px 20px; }
+      .modal-btns { flex-direction: column; }
+      .modal-btns button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================================================================
+     HEADER
+================================================================ -->
+<header>
+  <div class="nav-wrap">
+
+    <!-- Logo -->
+    <a href="home.html" class="logo" aria-label="RentRide – Go to Home">
+      <svg class="logo-svg" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 15l3-7h22l3 7" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"/>
+        <rect x="1" y="14" width="34" height="7" rx="3" fill="#14B8A6" fill-opacity=".18" stroke="#14B8A6" stroke-width="1.5"/>
+        <circle cx="9"  cy="21" r="2.5" fill="#14B8A6"/>
+        <circle cx="27" cy="21" r="2.5" fill="#14B8A6"/>
+        <rect x="7" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+        <rect x="21" y="10" width="8" height="5" rx="1.5" fill="#14B8A6" fill-opacity=".6"/>
+      </svg>
+      <span class="logo-name"><span class="r">Rent</span><span class="g">Ride</span></span>
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="nav-links" role="navigation" aria-label="Primary navigation">
+      <li><a href="home.html"><span class="home-icon">⌂</span> Home</a></li>
+      <li><a href="fleet.html">Fleet</a></li>
+      <li><a href="booking.html">Booking</a></li>
+      <li><a href="addons.html">Add-ons</a></li>
+      <li class="more-wrap">
+        <button class="more-btn" id="moreBtn" aria-haspopup="true" aria-expanded="false">
+          More <span class="chevron">▾</span>
+        </button>
+        <div class="mega-menu" id="megaMenu" role="menu">
+          <!-- Left column -->
+          <div>
+            <div class="mm-group">
+              <h5>Help &amp; Policies</h5>
+              <a href="faq.html">FAQ</a>
+              <a href="support.html">Support &amp; Help</a>
+            </div>
+            <div class="mm-group">
+              <h5>Vehicles &amp; Booking</h5>
+              <a href="vehicle-details.html">Vehicle Details</a>
+              <a href="confirmation.html">Confirmation</a>
+            </div>
+            <div class="mm-group">
+              <h5>Account &amp; Offers</h5>
+              <a href="saved-trips.html" class="active">Saved Trips</a>
+              <a href="deals.html">Deals</a>
+            </div>
+            <div class="mm-group">
+              <h5>Planning &amp; Tools</h5>
+              <a href="trip-planner.html">Trip Planner</a>
+              <a href="calculator.html">Calculator</a>
+            </div>
+          </div>
+          <!-- Right column -->
+          <div>
+            <div class="mm-group">
+              <h5>&nbsp;</h5>
+              <a href="safety.html">Safety &amp; Policies</a>
+            </div>
+            <div class="mm-group"><h5>&nbsp;</h5></div>
+            <div class="mm-group">
+              <h5>&nbsp;</h5>
+              <a href="account.html">Account</a>
+            </div>
+            <div class="mm-group">
+              <h5>&nbsp;</h5>
+              <a href="locations.html">Locations</a>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Right icons -->
+    <div class="nav-right">
+      <button class="icon-btn" aria-label="Saved cars" id="heartBtn">
+        <svg width="20" height="18" viewBox="0 0 24 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <span class="badge" id="savedBadge" aria-label="saved cars count">0</span>
+      </button>
+      <button class="icon-btn" aria-label="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </button>
+      <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav drawer -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="home.html">⌂ Home</a>
+    <a href="fleet.html">Fleet</a>
+    <a href="booking.html">Booking</a>
+    <a href="addons.html">Add-ons</a>
+    <a href="saved-trips.html">Saved Trips</a>
+    <a href="account.html">Account</a>
+    <a href="faq.html">FAQ</a>
+    <a href="deals.html">Deals</a>
+  </nav>
+</header>
+
+<!-- ================================================================
+     MAIN CONTENT
+================================================================ -->
+<main>
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="home.html">Home</a>
+    <span>›</span>
+    <span aria-current="page">Saved Cars &amp; Trips</span>
+  </nav>
+
+  <!-- Page Heading -->
+  <h1 class="page-h1">My Saved Cars</h1>
+  <p class="page-sub">Your favourite rides, saved and ready to book.</p>
+
+  <h2 class="sec-title">Saved Cars</h2>
+
+  <!-- Empty state -->
+  <div class="empty-state" id="emptyState" role="status" aria-live="polite" aria-atomic="true">
+    <div class="empty-emoji" aria-hidden="true">🚘</div>
+    <h3 class="empty-title">No cars saved yet!</h3>
+    <p class="empty-desc">Browse our fleet and save your favourite cars to book them quickly later.</p>
+    <a href="fleet.html" class="btn-explore" role="button">🔍 Explore Cars</a>
+  </div>
+
+  <!-- Cars grid -->
+  <div class="cars-grid" id="carsGrid" role="list" aria-label="Your saved cars"></div>
+
+  <!-- ================================================================
+       UPCOMING TRIPS
+  ================================================================ -->
+  <section class="trips-section" aria-labelledby="tripsHeading">
+    <h2 class="sec-title" id="tripsHeading">Upcoming Trips</h2>
+
+    <div class="trip-card" role="listitem">
+      <div class="trip-thumb">
+        <img
+          src="images/honda-civic.jpg"
+          alt="Honda Civic"
+          onerror="this.parentElement.innerHTML='<div style=\'display:flex;align-items:center;justify-content:center;height:100%;font-size:2.8rem;\'>🚙</div>'"
+        />
+      </div>
+      <div class="trip-info">
+        <p class="trip-car">Honda Civic</p>
+        <div class="trip-route" aria-label="Route: Islamabad to Murree">
+          <span>📍 Islamabad</span>
+          <span class="route-arr">→</span>
+          <span>🏔️ Murree</span>
+        </div>
+        <span class="trip-status-pill" role="status">🕐 Upcoming</span>
+      </div>
+      <button class="btn-details" onclick="showTripDetails()">View Details</button>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       EXPLORE CTA
+  ================================================================ -->
+  <div class="cta-banner" role="complementary" aria-label="Browse more cars">
+    <h3>Ready for your next adventure?</h3>
+    <p>Discover hundreds of cars available across Pakistan — from economy to luxury.</p>
+    <a href="fleet.html" class="btn-explore" role="button">🚗 Explore Cars</a>
+  </div>
+
+</main>
+
+<!-- ================================================================
+     CONFIRMATION MODAL
+================================================================ -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+  <div class="modal">
+    <div class="modal-icon" aria-hidden="true">🗑️</div>
+    <h3 id="modalTitle">Remove Saved Car?</h3>
+    <p id="modalDesc">Are you sure you want to remove this car from your saved list? You can always add it back later.</p>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="btnCancel">Cancel</button>
+      <button class="btn-confirm" id="btnConfirm">Yes, Remove</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="alert" aria-live="assertive">
+  <span aria-hidden="true">✅</span>
+  <span id="toastMsg">Car removed successfully.</span>
+</div>
+
+<!-- ================================================================
+     FOOTER
+================================================================ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-brand">
+      <h2>Book Smarter – Travel Better</h2>
+      <p>Transparent car rental policies, flexible bookings, and 24/7 roadside assistance.</p>
+      <span class="foot-copy">© 2026 RentRide. All rights reserved.</span>
+    </div>
+    <div class="foot-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="booking.html">Booking</a></li>
+        <li><a href="account.html">Account</a></li>
+        <li><a href="help.html">Help</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="contact.html">Contact us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of service</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ================================================================
+     JAVASCRIPT
+================================================================ -->
+<script>
+  'use strict';
+
+  /* ─── Default seed data ──────────────────────────────────────── */
+  const DEFAULTS = [
+    {
+      id: 1, name: 'Toyota Corolla', price: '$45', badge: 'Popular', badgeClass: '',
+      img: 'images/toyota-corolla.jpg'
+    },
+    {
+      id: 2, name: 'Honda Civic', price: '$38', badge: 'Economy', badgeClass: 'amber',
+      img: 'images/honda-civic.jpg'
+    },
+    {
+      id: 3, name: 'Suzuki Swift', price: '$30', badge: 'Compact', badgeClass: '',
+      img: 'images/suzuki-swift.jpg'
+    },
+    {
+      id: 4, name: 'Kia Sportage', price: '$120', badge: 'Luxury', badgeClass: 'navy',
+      img: 'images/kia-sportage.jpg'
+    }
+  ];
+
+  const LS_KEY = 'rentride_saved_cars';
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) {
+        const savedCars = JSON.parse(raw);
+        const legacyImages = {
+          'images/honda-city.jpg': { name: 'Honda Civic', img: 'images/honda-civic.jpg' },
+          'images/bmw-5-series.jpg': { name: 'Kia Sportage', img: 'images/kia-sportage.jpg' }
+        };
+        let migrated = false;
+        const cars = savedCars.map(car => {
+          const replacement = legacyImages[car.img];
+          if (!replacement) return car;
+          migrated = true;
+          return { ...car, ...replacement };
+        });
+        if (migrated) save(cars);
+        return cars;
+      }
+    } catch(e) {}
+    save(DEFAULTS);
+    return [...DEFAULTS];
+  }
+
+  function save(cars) {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(cars)); } catch(e) {}
+  }
+
+  const CAR_IMAGE_FALLBACKS = {
+    toyota: 'images/toyota-corolla.jpg',
+    honda: 'images/honda-civic.jpg',
+    suzuki: 'images/suzuki-swift.jpg',
+    kia: 'images/kia-sportage.jpg',
+    hyundai: 'images/hyundai-elantra.jpg'
+  };
+
+  function getCarImageFallback(car, index) {
+    const name = String(car.name || '').toLowerCase();
+    const brand = Object.keys(CAR_IMAGE_FALLBACKS).find(key => name.includes(key));
+    return brand ? CAR_IMAGE_FALLBACKS[brand] : DEFAULTS[index % DEFAULTS.length].img;
+  }
+
+  let cars = load();
+  let pendingId = null;
+
+  /* ─── Render ─────────────────────────────────────────────────── */
+   function render() {
+    const grid  = document.getElementById('carsGrid');
+    const empty = document.getElementById('emptyState');
+    const badge = document.getElementById('savedBadge');
+
+    badge.textContent = cars.length;
+    badge.style.display = cars.length > 0 ? 'flex' : 'none';
+
+    if (cars.length === 0) {
+      grid.innerHTML = '';
+      grid.style.display = 'none';
+      empty.classList.add('show');
+      return;
+    }
+
+    empty.classList.remove('show');
+    grid.style.display = 'grid';
+
+    grid.innerHTML = cars.map((car, i) => `
+      <article class="car-card" style="animation-delay:${i * 0.07}s" role="listitem" aria-label="${car.name}">
+        <div class="img-wrap">
+          <img class="car-img" src="${car.img}" alt="${car.name}" loading="lazy"
+               onerror="this.onerror=null; this.src='${getCarImageFallback(car, i)}';" />
+          <span class="car-pill ${car.badgeClass}">${car.badge}</span>
+        </div>
+        <div class="card-body">
+          <h3 class="car-name">${car.name}</h3>
+          <p class="car-price">${car.price} <small>/ day</small></p>
+          <div class="card-actions">
+            <button class="btn-remove" onclick="openModal(${car.id})" aria-label="Remove ${car.name} from saved cars">
+              🗑️ Remove
+            </button>
+            <button class="btn-view" aria-label="View details for ${car.name}">View Details</button>
+          </div>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  /* ─── Modal ──────────────────────────────────────────────────── */
+  function openModal(id) {
+    pendingId = id;
+    const ov = document.getElementById('overlay');
+    ov.classList.add('open');
+    document.getElementById('btnConfirm').focus();
+  }
+
+  function closeModal() {
+    document.getElementById('overlay').classList.remove('open');
+    pendingId = null;
+  }
+
+  document.getElementById('btnCancel').addEventListener('click', closeModal);
+  document.getElementById('btnConfirm').addEventListener('click', () => {
+    cars = cars.filter(c => c.id !== pendingId);
+    save(cars);
+    closeModal();
+    render();
+    showToast('Car removed from saved list.');
+  });
+  document.getElementById('overlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal(); megaMenu.classList.remove('open'); moreBtn.setAttribute('aria-expanded','false'); }
+  });
+
+  /* ─── Toast ──────────────────────────────────────────────────── */
+  let toastTimer;
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+  }
+
+  /* ─── More dropdown ──────────────────────────────────────────── */
+  const moreBtn  = document.getElementById('moreBtn');
+  const megaMenu = document.getElementById('megaMenu');
+
+  moreBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = megaMenu.classList.toggle('open');
+    moreBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', () => {
+    megaMenu.classList.remove('open');
+    moreBtn.setAttribute('aria-expanded','false');
+  });
+  megaMenu.addEventListener('click', e => e.stopPropagation());
+
+  /* ─── Hamburger ──────────────────────────────────────────────── */
+  document.getElementById('hamburger').addEventListener('click', () => {
+    const nav  = document.getElementById('mobileNav');
+    const btn  = document.getElementById('hamburger');
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+
+  /* ─── Trip Details ───────────────────────────────────────────── */
+  function showTripDetails() {
+    alert('🚗 Honda Civic\n📍 Islamabad → 🏔️ Murree\n📅 Status: Upcoming\n\nFull trip details page coming soon!');
+  }
+
+  /* ─── Init ───────────────────────────────────────────────────── */
+  render();
+</script>
+
+</body>
+</html>
