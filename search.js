@@ -137,6 +137,8 @@
 
   const navToggle = document.getElementById("navToggle");
   const primaryNav = document.getElementById("primaryNav");
+  const moreNavBtn = document.getElementById("moreNavBtn");
+  const moreNavMenu = document.getElementById("moreNavMenu");
   const favDrawerBtn = document.getElementById("favDrawerBtn");
   const favDrawer = document.getElementById("favDrawer");
   const closeFavDrawer = document.getElementById("closeFavDrawer");
@@ -342,12 +344,18 @@
     }
   }
 
+  function closeMoreMenu() {
+    if (moreNavMenu) moreNavMenu.hidden = true;
+    if (moreNavBtn) moreNavBtn.setAttribute("aria-expanded", "false");
+  }
+
   function closeAllOverlays() {
     if (favDrawer) favDrawer.hidden = true;
     if (accountModal) accountModal.hidden = true;
     if (modalBackdrop) modalBackdrop.hidden = true;
     if (favDrawerBtn) favDrawerBtn.setAttribute("aria-expanded", "false");
     if (accountModalBtn) accountModalBtn.setAttribute("aria-expanded", "false");
+    closeMoreMenu();
   }
 
   // Form Submit -> Show ONLY filter bar + matching cars grid
@@ -492,8 +500,34 @@
       const expanded = navToggle.getAttribute("aria-expanded") === "true";
       navToggle.setAttribute("aria-expanded", String(!expanded));
       primaryNav.classList.toggle("is-open", !expanded);
+      if (expanded) closeMoreMenu();
     });
   }
+
+  if (moreNavBtn && moreNavMenu) {
+    moreNavBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const expanded = moreNavBtn.getAttribute("aria-expanded") === "true";
+      moreNavBtn.setAttribute("aria-expanded", String(!expanded));
+      moreNavMenu.hidden = expanded;
+    });
+
+    moreNavMenu.addEventListener("click", (event) => {
+      if (event.target.closest("a")) {
+        closeMoreMenu();
+        if (primaryNav && navToggle) {
+          primaryNav.classList.remove("is-open");
+          navToggle.setAttribute("aria-expanded", "false");
+        }
+      }
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    if (moreNavMenu && !moreNavMenu.hidden && !event.target.closest(".nav-more-item")) {
+      closeMoreMenu();
+    }
+  });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") closeAllOverlays();
