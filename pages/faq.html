@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RentRide Frequently Asked Questions — Find answers about booking, payments, cancellations, insurance, and rental age eligibility.">
+  <title>FAQ &amp; Rental Policies | RentRide</title>
+
+  <!-- Google Fonts: Poppins for headings, Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/faq.css">
+  <script src="../js/faq.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Shared RentRide Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="brand-logo" aria-label="RentRide Home">
+        <svg class="brand-icon" viewBox="0 0 28 24" fill="none" aria-hidden="true">
+          <path d="M5 13.5L7.8 6.8C8.3 5.7 9.4 5 10.6 5H17.4C18.6 5 19.7 5.7 20.2 6.8L23 13.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2.5 14.5C2.5 13.4 3.4 12.5 4.5 12.5H23.5C24.6 12.5 25.5 13.4 25.5 14.5V17.5C25.5 18.1 25.1 18.5 24.5 18.5H23V20C23 20.6 22.6 21 22 21H20.5C19.9 21 19.5 20.6 19.5 20V18.5H8.5V20C8.5 20.6 8.1 21 7.5 21H6C5.4 21 5 20.6 5 20V18.5H3.5C2.9 18.5 2.5 18.1 2.5 17.5V14.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <circle cx="7" cy="15.5" r="1.2" fill="currentColor"/>
+          <circle cx="21" cy="15.5" r="1.2" fill="currentColor"/>
+        </svg>
+        <span class="brand-text">Rent<span class="brand-accent">Ride</span></span>
+      </a>
+
+      <button
+        type="button"
+        class="mobile-nav-toggle"
+        id="mobile-nav-toggle"
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+        aria-label="Toggle navigation menu"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <div class="nav-collapse" id="primary-navigation">
+        <nav class="main-nav" aria-label="Primary Navigation">
+          <ul class="nav-list">
+            <li>
+              <a href="../index.html" class="nav-link">
+                <svg class="nav-home-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M3 9.5L10 3.5L17 9.5V16.5C17 17.1 16.6 17.5 16 17.5H12.5V12.5H7.5V17.5H4C3.4 17.5 3 17.1 3 16.5V9.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                </svg>
+                <span>Home</span>
+              </a>
+            </li>
+            <li><a href="fleet.html" class="nav-link">Fleet</a></li>
+            <li><a href="booking.html" class="nav-link">Booking</a></li>
+            <li><a href="addons.html" class="nav-link">Add-ons</a></li>
+            <li class="nav-dropdown">
+              <button
+                type="button"
+                class="nav-link nav-dropdown-trigger is-active"
+                id="more-menu-button"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="more-menu-list"
+              >
+                <span>More</span>
+                <svg class="chevron-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <ul class="dropdown-menu" id="more-menu-list" aria-label="More pages">
+                <li class="dropdown-section-label" role="presentation">Help &amp; Policies</li>
+                <li><a href="faq.html" class="dropdown-link is-current" aria-current="page">FAQ</a></li>
+                <li><a href="safety.html" class="dropdown-link">Safety &amp; Policies</a></li>
+                <li><a href="support.html" class="dropdown-link">Support &amp; Help</a></li>
+
+                <li class="dropdown-section-label" role="presentation">Vehicles &amp; Booking</li>
+                <li><a href="vehicle-details.html" class="dropdown-link">Vehicle Details</a></li>
+                <li><a href="confirmation.html" class="dropdown-link">Confirmation</a></li>
+
+                <li class="dropdown-section-label" role="presentation">Account &amp; Offers</li>
+                <li><a href="saved-trips.html" class="dropdown-link">Saved Trips</a></li>
+                <li><a href="account.html" class="dropdown-link">Account</a></li>
+                <li><a href="deals.html" class="dropdown-link">Deals</a></li>
+
+                <li class="dropdown-section-label" role="presentation">Planning &amp; Tools</li>
+                <li><a href="trip-planner.html" class="dropdown-link">Trip Planner</a></li>
+                <li><a href="locations.html" class="dropdown-link">Locations</a></li>
+                <li><a href="calculator.html" class="dropdown-link">Calculator</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <a href="saved-trips.html" class="icon-btn" aria-label="Saved trips">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 20.3C12 20.3 4 15.2 4 9.2C4 6.7 6 4.7 8.5 4.7C10 4.7 11.3 5.5 12 6.7C12.7 5.5 14 4.7 15.5 4.7C18 4.7 20 6.7 20 9.2C20 15.2 12 20.3 12 20.3Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="account.html" class="icon-btn" aria-label="My account">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="8.5" r="3.5" stroke="currentColor" stroke-width="1.9"/>
+              <path d="M5 19.5C5.9 16.3 8.7 14.5 12 14.5C15.3 14.5 18.1 16.3 19 19.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            </svg>
+          </a>
+          <a href="booking.html" class="btn-book-now">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="faq-main">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol class="breadcrumb-list">
+          <li class="breadcrumb-item">
+            <a href="../index.html">Home</a>
+          </li>
+          <li class="breadcrumb-separator" aria-hidden="true">&gt;</li>
+          <li class="breadcrumb-item" aria-current="page">
+            <span>FAQ</span>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Page Heading -->
+      <section class="faq-hero" aria-labelledby="faq-page-title">
+        <h1 id="faq-page-title" class="page-title">Frequently Asked Questions</h1>
+        <p class="page-subtitle">Find answers to common questions about renting a vehicle.</p>
+      </section>
+
+      <!-- Search & Category Filters -->
+      <section class="faq-controls" aria-label="Search and filter questions">
+        <div class="search-wrapper">
+          <label for="faq-search" class="visually-hidden">Search Questions</label>
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+            <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input
+            type="search"
+            id="faq-search"
+            class="search-input"
+            placeholder="Search Questions"
+            autocomplete="off"
+          >
+          <button
+            type="button"
+            id="search-clear-btn"
+            class="search-clear-btn"
+            aria-label="Clear search query"
+            hidden
+          >
+            &times;
+          </button>
+        </div>
+
+        <div class="filter-bar" role="group" aria-label="Filter FAQs by category">
+          <button type="button" class="filter-btn is-active" data-category="All" aria-pressed="true">All</button>
+          <button type="button" class="filter-btn" data-category="Booking" aria-pressed="false">Booking</button>
+          <button type="button" class="filter-btn" data-category="Payments" aria-pressed="false">Payments</button>
+          <button type="button" class="filter-btn" data-category="Cancellation" aria-pressed="false">Cancellation</button>
+          <button type="button" class="filter-btn" data-category="Insurance" aria-pressed="false">Insurance</button>
+          <button type="button" class="filter-btn" data-category="Eligibility" aria-pressed="false">Eligibility</button>
+        </div>
+
+        <p id="faq-results-status" class="results-status" aria-live="polite"></p>
+      </section>
+
+      <!-- FAQ Accordion List (Populated by js/faq.js) -->
+      <section class="faq-list-section" aria-label="FAQ Answers">
+        <div id="faq-accordion-list" class="faq-accordion-list"></div>
+
+        <div id="faq-empty-state" class="faq-empty-state" hidden>
+          <p class="empty-state-title">No matching questions found.</p>
+          <p class="empty-state-text">Try a different keyword or reset the category filter to view all policies.</p>
+          <button type="button" id="reset-filters-btn" class="btn-secondary">Reset Filters</button>
+        </div>
+      </section>
+
+      <!-- Rental Age / Coverage Eligibility Helper -->
+      <section class="eligibility-card" aria-labelledby="eligibility-heading">
+        <div class="eligibility-header">
+          <h2 id="eligibility-heading" class="eligibility-title">Check Your Rental Eligibility</h2>
+          <p class="eligibility-subtitle">Verify minimum age requirements, vehicle class access, and coverage rules before you book.</p>
+        </div>
+
+        <form id="eligibility-form" class="eligibility-form" novalidate>
+          <label for="driver-age-input" class="eligibility-label">Enter your Age:</label>
+          <div class="eligibility-input-group">
+            <input
+              type="number"
+              id="driver-age-input"
+              class="eligibility-input"
+              inputmode="numeric"
+              placeholder="e.g., 25"
+              aria-describedby="eligibility-result"
+            >
+            <button type="submit" id="check-eligibility-btn" class="btn-primary">Check Eligibility</button>
+          </div>
+        </form>
+
+        <div
+          id="eligibility-result"
+          class="eligibility-result is-idle"
+          role="status"
+          aria-live="polite"
+        >
+          <span class="eligibility-badge">Eligibility Result</span>
+          <p class="eligibility-message">Enter your age above and click <strong>Check Eligibility</strong> to see vehicle and coverage eligibility.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Shared RentRide Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand-col">
+        <p class="footer-tagline">Book Smarter &ndash; Travel Better</p>
+        <p class="footer-subtext">Transparent car rental policies, flexible bookings, and 24/7 roadside assistance.</p>
+        <p class="footer-copy">&copy; 2026 RentRide. All rights reserved.</p>
+      </div>
+
+      <div class="footer-col footer-col-bordered">
+        <h2 class="footer-heading">Quick Links</h2>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="booking.html">Booking</a></li>
+          <li><a href="account.html">Account</a></li>
+          <li><a href="support.html">Help</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-bordered">
+        <h2 class="footer-heading">Resources</h2>
+        <ul class="footer-links">
+          <li><a href="support.html">Support</a></li>
+          <li><a href="support.html#contact">Contact us</a></li>
+          <li><a href="safety.html#privacy">Privacy Policy</a></li>
+          <li><a href="safety.html#terms">Terms of service</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+
