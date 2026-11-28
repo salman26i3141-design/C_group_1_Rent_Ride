@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RentRide — Add-ons</title>
+  <style>
+    :root {
+      --bg: #F3F7F6;
+      --surface: #FFFFFF;
+      --surface-muted: #F3F7F6;
+      --border: #D6E4E1;
+      --border-focus: #268F7E;
+      --text: #0B121E;
+      --text-muted: #475569;
+      --text-subtle: #64748b;
+      --primary: #268F7E;
+      --primary-hover: #1E7466;
+      --primary-soft: #E7F4F1;
+      --nav-bg: #0B121E;
+      --footer-bg: #0B121E;
+      --footer-text: #cbd5e1;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 8px 24px rgba(11, 18, 30, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header / Navbar (Shared RentRide) */
+    .site-header {
+      background: var(--nav-bg);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: rgba(38, 143, 126, 0.16);
+      border: 1px solid rgba(38, 143, 126, 0.45);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand-text-rent {
+      color: #FFFFFF;
+    }
+
+    .brand-text-ride {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      list-style: none;
+    }
+
+    .nav-links > li {
+      position: relative;
+    }
+
+    .nav-links a,
+    .nav-dropdown-toggle {
+      text-decoration: none;
+      color: #cbd5e1;
+      font-weight: 500;
+      font-size: 0.94rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-sm);
+      transition: color 0.15s ease, background-color 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover,
+    .nav-dropdown-toggle:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+      font-weight: 700;
+      background: rgba(38, 143, 126, 0.12);
+      position: relative;
+    }
+
+    .nav-links a.active::after {
+      content: "";
+      position: absolute;
+      left: 0.75rem;
+      right: 0.75rem;
+      bottom: 0.15rem;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--primary);
+    }
+
+    .nav-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.45rem);
+      left: 0;
+      min-width: 170px;
+      background: #131c2e;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+      padding: 0.4rem;
+      list-style: none;
+      display: none;
+      z-index: 40;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu,
+    .nav-dropdown.open .nav-dropdown-menu {
+      display: block;
+    }
+
+    .nav-dropdown-menu a {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      border-radius: 6px;
+    }
+
+    .nav-dropdown-menu a:hover {
+      background: rgba(38, 143, 126, 0.2);
+      color: #FFFFFF;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .icon-btn {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      display: inline-grid;
+      place-items: center;
+      text-decoration: none;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+
+    .icon-btn:hover {
+      background: rgba(38, 143, 126, 0.18);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .fav-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #FFFFFF;
+      font-size: 0.68rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--nav-bg);
+    }
+
+    .btn-header-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.52rem 1.15rem;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #FFFFFF;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-header-cta:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-header-cta:active {
+      transform: translateY(1px);
+    }
+
+    @media (max-width: 820px) {
+      .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        padding-top: 0.45rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    /* Main Content */
+    .main-container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.75rem 1.25rem 3rem;
+      flex: 1;
+    }
+
+    .page-header {
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .page-header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+    }
+
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      color: var(--text-subtle);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .step-pill.done {
+      color: var(--text);
+    }
+
+    .step-pill.done:hover {
+      color: var(--primary);
+    }
+
+    .step-pill.current {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      font-size: 0.75rem;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+    }
+
+    .step-pill.done .step-num {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .step-pill.current .step-num {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .step-sep {
+      color: var(--border);
+    }
+
+    /* Fallback Notice */
+    .fallback-banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background: var(--primary-soft);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1.05rem;
+      margin-bottom: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .fallback-banner.visible {
+      display: flex;
+    }
+
+    .fallback-banner a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .fallback-banner a:hover {
+      text-decoration: underline;
+    }
+
+    /* Grid Layout */
+    .addons-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(300px, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .addons-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.4rem;
+    }
+
+    /* Filter Tabs Bar */
+    .addons-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.15rem;
+    }
+
+    .filter-tabs {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.35rem;
+      border-radius: 999px;
+    }
+
+    .filter-tab {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.45rem 1.15rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .filter-tab:hover {
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    .filter-tab.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(38, 143, 126, 0.28);
+    }
+
+    .filter-count {
+      font-size: 0.86rem;
+      color: var(--text-subtle);
+      font-weight: 500;
+    }
+
+    /* Add-on Cards Grid */
+    .addons-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    @media (max-width: 620px) {
+      .addons-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .addon-card {
+      position: relative;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      cursor: pointer;
+      transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.18s ease, opacity 0.22s ease;
+      user-select: none;
+    }
+
+    .addon-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .addon-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 10px 26px rgba(38, 143, 126, 0.14);
+    }
+
+    .addon-card.is-hidden {
+      display: none;
+    }
+
+    .addon-card.fade-in {
+      animation: cardFadeIn 0.22s ease forwards;
+    }
+
+    @keyframes cardFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .addon-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .addon-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      transition: background-color 0.18s ease, color 0.18s ease;
+    }
+
+    .addon-card.selected .addon-icon-wrap {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #FFFFFF;
+    }
+
+    .addon-toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .addon-checkbox {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .addon-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--primary);
+      background: rgba(38, 143, 126, 0.1);
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      margin-bottom: 0.45rem;
+    }
+
+    .addon-title {
+      font-size: 1.06rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .addon-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.48;
+    }
+
+    .addon-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border);
+    }
+
+    .addon-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .addon-price span {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-subtle);
+    }
+
+    .addon-status-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-subtle);
+    }
+
+    .addon-card.selected .addon-status-label {
+      color: var(--primary);
+    }
+
+    /* Summary Sidebar */
+    .summary-column {
+      position: sticky;
+      top: 5.25rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--surface-muted);
+    }
+
+    .card-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .card-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .card-header h2 {
+      font-size: 1.12rem;
+      font-weight: 700;
+    }
+
+    .card-badge {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--primary);
+      background: var(--primary-soft);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .booking-snapshot {
+      background: var(--primary-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .snapshot-label {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .snapshot-vehicle {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 0.2rem;
+    }
+
+    .snapshot-meta {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .selected-addons-box {
+      margin-bottom: 1rem;
+    }
+
+    .selected-addons-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-subtle);
+      margin-bottom: 0.45rem;
+    }
+
+    .selected-addons-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .selected-addons-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .selected-addons-empty {
+      font-size: 0.86rem;
+      color: var(--text-subtle);
+      font-style: italic;
+    }
+
+    .cost-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+
+    .cost-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .cost-row strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .cost-divider {
+      border: 0;
+      border-top: 1px dashed var(--border);
+      margin: 0.25rem 0;
+    }
+
+    .cost-total-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 0.85rem 1rem;
+      background: var(--primary-soft);
+      border: 1px solid #b9dbd4;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.15rem;
+    }
+
+    .cost-total-row .total-label {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .cost-total-row .total-amount {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+
+    .summary-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 0.85rem 1.25rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 0.72rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.94rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .save-note {
+      margin-top: 0.8rem;
+      font-size: 0.8rem;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+
+    /* Dark Three-Column RentRide Footer */
+    .site-footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      margin-top: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 2.75rem 1.25rem 2.25rem;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 2.25rem;
+    }
+
+    @media (max-width: 720px) {
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+      }
+    }
+
+    .footer-heading-tagline {
+      color: #FFFFFF;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.65rem;
+    }
+
+    .footer-subtext {
+      color: #94a3b8;
+      font-size: 0.92rem;
+      max-width: 360px;
+      margin-bottom: 1.15rem;
+      line-height: 1.6;
+    }
+
+    .footer-copyright {
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+
+    .footer-col h3 {
+      color: var(--primary);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.85rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .footer-links a {
+      color: var(--footer-text);
+      text-decoration: none;
+      font-size: 0.93rem;
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="home.html" class="brand" aria-label="RentRide Home">
+        <span class="brand-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"></path>
+            <circle cx="6.5" cy="16.5" r="2.5"></circle>
+            <circle cx="16.5" cy="16.5" r="2.5"></circle>
+          </svg>
+        </span>
+        <span><span class="brand-text-rent">Rent</span><span class="brand-text-ride">Ride</span></span>
+      </a>
+
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="fleet.html">Fleet</a></li>
+          <li><a href="booking.html">Booking</a></li>
+          <li><a href="addons.html" class="active" aria-current="page">Add-ons</a></li>
+          <li class="nav-dropdown">
+            <button type="button" class="nav-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+              <span>More</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <ul class="nav-dropdown-menu" aria-label="More options">
+              <li><a href="#account">Account</a></li>
+              <li><a href="#help">Help</a></li>
+              <li><a href="#support">Support</a></li>
+              <li><a href="#contact-us">Contact us</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#favorites" class="icon-btn" aria-label="Favorites">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span class="fav-badge">2</span>
+        </a>
+        <a href="#account" class="icon-btn" aria-label="User Profile">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+        <a href="booking.html" class="btn-header-cta">Book Now</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div class="page-header">
+      <div>
+        <h1>Choose Your Add-ons</h1>
+        <p>Enhance your trip with navigation and comprehensive protection coverage before confirmation.</p>
+      </div>
+      <div class="step-indicator" aria-label="Booking progress">
+        <a href="booking.html" class="step-pill done"><span class="step-num">1</span> Booking</a>
+        <span class="step-sep">/</span>
+        <span class="step-pill current"><span class="step-num">2</span> Add-ons</span>
+        <span class="step-sep">/</span>
+        <span class="step-pill"><span class="step-num">3</span> Confirmation</span>
+      </div>
+    </div>
+
+    <div id="fallbackBanner" class="fallback-banner" role="status">
+      <span>No saved booking found in <strong>bookingProState</strong>. Showing prototype default vehicle &amp; base rate.</span>
+      <a href="booking.html">Enter driver &amp; vehicle details &rarr;</a>
+    </div>
+
+    <div class="addons-layout">
+      <!-- Left Column: Filter Tabs + Add-ons Cards -->
+      <section aria-labelledby="addons-heading">
+        <h2 id="addons-heading" style="position:absolute;left:-9999px;">Available Add-ons</h2>
+
+        <div class="addons-toolbar">
+          <div class="filter-tabs" role="tablist" aria-label="Filter add-ons by category">
+            <button type="button" class="filter-tab active" role="tab" aria-selected="true" data-filter="all">
+              All
+            </button>
+            <button type="button" class="filter-tab" role="tab" aria-selected="false" data-filter="protection">
+              Protection
+            </button>
+          </div>
+          <span class="filter-count" id="filterCount">Showing 4 add-ons</span>
+        </div>
+
+        <div class="addons-grid" id="addonsGrid">
+          <!-- 1. GPS Navigation -->
+          <label class="addon-card" data-addon-id="gps" data-category="convenience" for="addon-gps">
+            <div>
+              <div class="addon-top">
+                <div class="addon-icon-wrap" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+                  </svg>
+                </div>
+                <div class="addon-toggle-wrap">
+                  <input
+                    type="checkbox"
+                    id="addon-gps"
+                    class="addon-checkbox"
+                    data-id="gps"
+                    data-name="GPS Navigation"
+                    data-category="Navigation / Convenience"
+                    data-rate="12"
+                  />
+                </div>
+              </div>
+              <div style="margin-top: 0.85rem;">
+                <span class="addon-category">Navigation / Convenience</span>
+                <h3 class="addon-title">GPS Navigation</h3>
+                <p class="addon-desc">
+                  Turn-by-turn live traffic and offline route guidance mounted in-cabin for effortless navigation.
+                </p>
+              </div>
+            </div>
+            <div class="addon-footer">
+              <div class="addon-price">$12.00 <span>/ day</span></div>
+              <span class="addon-status-label" data-status-for="gps">Add to trip</span>
+            </div>
+          </label>
+
+          <!-- 2. Protection Options -->
+          <label class="addon-card" data-addon-id="protection" data-category="protection" for="addon-protection">
+            <div>
+              <div class="addon-top">
+                <div class="addon-icon-wrap" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                  </svg>
+                </div>
+                <div class="addon-toggle-wrap">
+                  <input
+                    type="checkbox"
+                    id="addon-protection"
+                    class="addon-checkbox"
+                    data-id="protection"
+                    data-name="Protection Options"
+                    data-category="Protection"
+                    data-rate="15"
+                  />
+                </div>
+              </div>
+              <div style="margin-top: 0.85rem;">
+                <span class="addon-category">Protection</span>
+                <h3 class="addon-title">Protection Options</h3>
+                <p class="addon-desc">
+                  Priority 24/7 roadside assistance, flat-tire replacement, battery jump-start, and glass protection.
+                </p>
+              </div>
+            </div>
+            <div class="addon-footer">
+              <div class="addon-price">$15.00 <span>/ day</span></div>
+              <span class="addon-status-label" data-status-for="protection">Add to trip</span>
+            </div>
+          </label>
+
+          <!-- 3. Collision Damage -->
+          <label class="addon-card" data-addon-id="collision" data-category="protection" for="addon-collision">
+            <div>
+              <div class="addon-top">
+                <div class="addon-icon-wrap" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"></path>
+                    <circle cx="6.5" cy="16.5" r="2.5"></circle>
+                    <circle cx="16.5" cy="16.5" r="2.5"></circle>
+                  </svg>
+                </div>
+                <div class="addon-toggle-wrap">
+                  <input
+                    type="checkbox"
+                    id="addon-collision"
+                    class="addon-checkbox"
+                    data-id="collision"
+                    data-name="Collision Damage"
+                    data-category="Protection"
+                    data-rate="22"
+                  />
+                </div>
+              </div>
+              <div style="margin-top: 0.85rem;">
+                <span class="addon-category">Protection</span>
+                <h3 class="addon-title">Collision Damage</h3>
+                <p class="addon-desc">
+                  Collision Damage Waiver (CDW) reducing your deductible responsibility to $0 for vehicle body damage.
+                </p>
+              </div>
+            </div>
+            <div class="addon-footer">
+              <div class="addon-price">$22.00 <span>/ day</span></div>
+              <span class="addon-status-label" data-status-for="collision">Add to trip</span>
+            </div>
+          </label>
+
+          <!-- 4. Insurance Option -->
+          <label class="addon-card" data-addon-id="insurance" data-category="protection" for="addon-insurance">
+            <div>
+              <div class="addon-top">
+                <div class="addon-icon-wrap" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </div>
+                <div class="addon-toggle-wrap">
+                  <input
+                    type="checkbox"
+                    id="addon-insurance"
+                    class="addon-checkbox"
+                    data-id="insurance"
+                    data-name="Insurance Option"
+                    data-category="Protection"
+                    data-rate="18"
+                  />
+                </div>
+              </div>
+              <div style="margin-top: 0.85rem;">
+                <span class="addon-category">Protection</span>
+                <h3 class="addon-title">Insurance Option</h3>
+                <p class="addon-desc">
+                  Comprehensive supplemental liability and personal accident insurance for driver and passengers.
+                </p>
+              </div>
+            </div>
+            <div class="addon-footer">
+              <div class="addon-price">$18.00 <span>/ day</span></div>
+              <span class="addon-status-label" data-status-for="insurance">Add to trip</span>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <!-- Right Column: Live Total Summary -->
+      <aside class="summary-column" aria-labelledby="summary-heading">
+        <section class="card">
+          <div class="card-header">
+            <div class="card-title-wrap">
+              <div class="card-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+              <h2 id="summary-heading">Total Summary</h2>
+            </div>
+            <span class="card-badge">Live $</span>
+          </div>
+
+          <div class="booking-snapshot">
+            <div class="snapshot-label">Booking Summary</div>
+            <div class="snapshot-vehicle" id="snapshotVehicle">Sedan - Toyota Corolla</div>
+            <div class="snapshot-meta" id="snapshotMeta">
+              Driver: Guest Driver &bull; Duration: 1 day
+            </div>
+          </div>
+
+          <div class="selected-addons-box">
+            <div class="selected-addons-title">Selected Add-ons</div>
+            <ul class="selected-addons-list" id="selectedAddonsList">
+              <li class="selected-addons-empty">No add-ons selected yet.</li>
+            </ul>
+          </div>
+
+          <div class="cost-rows" aria-live="polite">
+            <div class="cost-row">
+              <span>Base Cost</span>
+              <strong id="summaryBaseCost">$55.00</strong>
+            </div>
+            <div class="cost-row">
+              <span>Add-ons Cost</span>
+              <strong id="summaryAddonsCost">$0.00</strong>
+            </div>
+            <div class="cost-row">
+              <span>Tax (10%)</span>
+              <strong id="summaryTax">$5.50</strong>
+            </div>
+            <hr class="cost-divider" />
+          </div>
+
+          <div class="cost-total-row" aria-live="polite">
+            <span class="total-label">Total</span>
+            <span class="total-amount" id="summaryTotal">$60.50</span>
+          </div>
+
+          <div class="summary-btn-group">
+            <button type="button" class="btn-primary" id="proceedBtn">
+              <span>Proceed</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+            <a href="booking.html" class="btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back to Booking</span>
+            </a>
+          </div>
+
+          <p class="save-note" id="saveStatus">Synced with bookingProState</p>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-heading-tagline">BOOK SMARTER &nbsp;TRAVEL BETTER</div>
+        <p class="footer-subtext">
+          Transparent car rental policies, flexible bookings, and 24/7 roadside assistance.
+        </p>
+        <p class="footer-copyright">&copy; 2026 RentRide. All rights reserved.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>QUICK LINKS</h3>
+        <ul class="footer-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="booking.html">Booking</a></li>
+          <li><a href="#account">Account</a></li>
+          <li><a href="#help">Help</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>RESOURCES</h3>
+        <ul class="footer-links">
+          <li><a href="#support">Support</a></li>
+          <li><a href="#contact-us">Contact us</a></li>
+          <li><a href="#privacy-policy">Privacy Policy</a></li>
+          <li><a href="#terms-of-service">Terms of service</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "bookingProState";
+      const TAX_RATE = 0.10;
+
+      const DEFAULT_STATE = {
+        driver: {
+          name: "Guest Driver",
+          dob: "",
+          age: null,
+          licenseNumber: ""
+        },
+        vehicle: {
+          model: "Sedan - Toyota Corolla",
+          type: "Sedan",
+          color: "Pearl White",
+          registrationNumber: "BP-2026",
+          dailyRate: 55
+        },
+        datesAndLocations: {
+          pickupLocation: "",
+          dropoffLocation: "",
+          pickupDate: "",
+          returnDate: "",
+          rentalDays: 1
+        },
+        costBreakdown: {
+          currency: "$",
+          dailyRate: 55,
+          rentalDays: 1,
+          cost: 55,
+          taxRate: TAX_RATE,
+          tax: 5.5,
+          total: 60.5
+        },
+        addons: []
+      };
+
+      const fallbackBannerEl = document.getElementById("fallbackBanner");
+      const snapshotVehicleEl = document.getElementById("snapshotVehicle");
+      const snapshotMetaEl = document.getElementById("snapshotMeta");
+      const selectedAddonsListEl = document.getElementById("selectedAddonsList");
+      const summaryBaseCostEl = document.getElementById("summaryBaseCost");
+      const summaryAddonsCostEl = document.getElementById("summaryAddonsCost");
+      const summaryTaxEl = document.getElementById("summaryTax");
+      const summaryTotalEl = document.getElementById("summaryTotal");
+      const saveStatusEl = document.getElementById("saveStatus");
+      const proceedBtn = document.getElementById("proceedBtn");
+
+      const filterTabs = Array.from(document.querySelectorAll(".filter-tab"));
+      const addonCards = Array.from(document.querySelectorAll(".addon-card"));
+      const addonCheckboxes = Array.from(document.querySelectorAll(".addon-checkbox"));
+      const filterCountEl = document.getElementById("filterCount");
+
+      let bookingState = null;
+
+      function formatCurrency(amount) {
+        return "$" + Number(amount || 0).toFixed(2);
+      }
+
+      function loadBookingState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            fallbackBannerEl.classList.add("visible");
+            return JSON.parse(JSON.stringify(DEFAULT_STATE));
+          }
+          const parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed !== "object") {
+            fallbackBannerEl.classList.add("visible");
+            return JSON.parse(JSON.stringify(DEFAULT_STATE));
+          }
+
+          const rentalDays = Math.max(
+            1,
+            Number(
+              (parsed.datesAndLocations && parsed.datesAndLocations.rentalDays) ||
+              (parsed.costBreakdown && parsed.costBreakdown.rentalDays) ||
+              1
+            )
+          );
+
+          const dailyRate = Number(
+            (parsed.vehicle && parsed.vehicle.dailyRate) ||
+            (parsed.costBreakdown && parsed.costBreakdown.dailyRate) ||
+            DEFAULT_STATE.vehicle.dailyRate
+          );
+
+          const baseCost = Number(
+            (parsed.costBreakdown &&
+              (parsed.costBreakdown.baseCost !== undefined
+                ? parsed.costBreakdown.baseCost
+                : parsed.costBreakdown.cost)) ||
+            dailyRate * rentalDays
+          );
+
+          return {
+            ...DEFAULT_STATE,
+            ...parsed,
+            driver: { ...DEFAULT_STATE.driver, ...(parsed.driver || {}) },
+            vehicle: {
+              ...DEFAULT_STATE.vehicle,
+              ...(parsed.vehicle || {}),
+              dailyRate: dailyRate
+            },
+            datesAndLocations: {
+              ...DEFAULT_STATE.datesAndLocations,
+              ...(parsed.datesAndLocations || {}),
+              rentalDays: rentalDays
+            },
+            costBreakdown: {
+              ...DEFAULT_STATE.costBreakdown,
+              ...(parsed.costBreakdown || {}),
+              currency: "$",
+              dailyRate: dailyRate,
+              rentalDays: rentalDays,
+              baseCost: baseCost,
+              cost: baseCost,
+              taxRate: TAX_RATE
+            },
+            addons: Array.isArray(parsed.addons) ? parsed.addons : []
+          };
+        } catch (err) {
+          fallbackBannerEl.classList.add("visible");
+          return JSON.parse(JSON.stringify(DEFAULT_STATE));
+        }
+      }
+
+      function getSelectedAddons() {
+        const rentalDays = bookingState.datesAndLocations.rentalDays || 1;
+        return addonCheckboxes
+          .filter(function (cb) {
+            return cb.checked;
+          })
+          .map(function (cb) {
+            const dailyRate = Number(cb.dataset.rate || 0);
+            const cost = Number((dailyRate * rentalDays).toFixed(2));
+            return {
+              id: cb.dataset.id,
+              name: cb.dataset.name,
+              category: cb.dataset.category,
+              dailyRate: dailyRate,
+              rentalDays: rentalDays,
+              cost: cost
+            };
+          });
+      }
+
+      function computeTotals(selectedAddons) {
+        const baseCost = Number(bookingState.costBreakdown.baseCost || 0);
+        const addonsCost = Number(
+          selectedAddons
+            .reduce(function (sum, item) {
+              return sum + item.cost;
+            }, 0)
+            .toFixed(2)
+        );
+        const subtotal = Number((baseCost + addonsCost).toFixed(2));
+        const tax = Number((subtotal * TAX_RATE).toFixed(2));
+        const total = Number((subtotal + tax).toFixed(2));
+        return { baseCost, addonsCost, tax, total };
+      }
+
+      function renderSummary() {
+        const rentalDays = bookingState.datesAndLocations.rentalDays || 1;
+        const driverName = bookingState.driver.name || "Guest Driver";
+        const vehicleModel = bookingState.vehicle.model || "Sedan - Toyota Corolla";
+        const vehicleColor = bookingState.vehicle.color || "Pearl White";
+        const regNumber = bookingState.vehicle.registrationNumber || "BP-2026";
+
+        snapshotVehicleEl.textContent = vehicleModel;
+        snapshotMetaEl.textContent =
+          "Driver: " +
+          driverName +
+          " \u2022 " +
+          vehicleColor +
+          " (" +
+          regNumber +
+          ") \u2022 " +
+          rentalDays +
+          (rentalDays === 1 ? " day" : " days");
+
+        // Sync card visual states
+        addonCards.forEach(function (card) {
+          const cb = card.querySelector(".addon-checkbox");
+          const statusEl = card.querySelector("[data-status-for]");
+          if (!cb) return;
+          if (cb.checked) {
+            card.classList.add("selected");
+            if (statusEl) statusEl.textContent = "Selected \u2713";
+          } else {
+            card.classList.remove("selected");
+            if (statusEl) statusEl.textContent = "Add to trip";
+          }
+        });
+
+        const selectedAddons = getSelectedAddons();
+        const totals = computeTotals(selectedAddons);
+
+        // Render selected add-ons list
+        selectedAddonsListEl.innerHTML = "";
+        if (selectedAddons.length === 0) {
+          const emptyLi = document.createElement("li");
+          emptyLi.className = "selected-addons-empty";
+          emptyLi.textContent = "No add-ons selected yet.";
+          selectedAddonsListEl.appendChild(emptyLi);
+        } else {
+          selectedAddons.forEach(function (item) {
+            const li = document.createElement("li");
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent =
+              item.name +
+              (item.rentalDays > 1 ? " (" + item.rentalDays + "d)" : "");
+            const priceSpan = document.createElement("strong");
+            priceSpan.textContent = formatCurrency(item.cost);
+            li.appendChild(nameSpan);
+            li.appendChild(priceSpan);
+            selectedAddonsListEl.appendChild(li);
+          });
+        }
+
+        summaryBaseCostEl.textContent = formatCurrency(totals.baseCost);
+        summaryAddonsCostEl.textContent = formatCurrency(totals.addonsCost);
+        summaryTaxEl.textContent = formatCurrency(totals.tax);
+        summaryTotalEl.textContent = formatCurrency(totals.total);
+      }
+
+      function saveBookingState() {
+        const selectedAddons = getSelectedAddons();
+        const totals = computeTotals(selectedAddons);
+
+        bookingState.addons = selectedAddons;
+        bookingState.costBreakdown = {
+          ...bookingState.costBreakdown,
+          currency: "$",
+          baseCost: totals.baseCost,
+          cost: totals.baseCost,
+          addonsCost: totals.addonsCost,
+          taxRate: TAX_RATE,
+          tax: totals.tax,
+          total: totals.total
+        };
+        bookingState.updatedAt = new Date().toISOString();
+
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(bookingState));
+          saveStatusEl.textContent = "Saved to bookingProState";
+        } catch (err) {
+          saveStatusEl.textContent = "Unable to access localStorage";
+        }
+      }
+
+      function applyFilter(filterKey) {
+        let visibleCount = 0;
+        addonCards.forEach(function (card) {
+          const category = card.dataset.category || "";
+          const matches = filterKey === "all" || category === filterKey;
+          card.classList.remove("fade-in");
+          if (matches) {
+            card.classList.remove("is-hidden");
+            void card.offsetWidth; // trigger reflow for smooth fade
+            card.classList.add("fade-in");
+            visibleCount += 1;
+          } else {
+            card.classList.add("is-hidden");
+          }
+        });
+
+        filterCountEl.textContent =
+          "Showing " + visibleCount + (visibleCount === 1 ? " add-on" : " add-ons");
+      }
+
+      // Restore previously chosen add-ons if present in bookingProState
+      function restoreSavedAddons() {
+        if (!Array.isArray(bookingState.addons) || bookingState.addons.length === 0) {
+          return;
+        }
+        const savedIds = new Set(
+          bookingState.addons.map(function (item) {
+            return item.id;
+          })
+        );
+        addonCheckboxes.forEach(function (cb) {
+          cb.checked = savedIds.has(cb.dataset.id);
+        });
+      }
+
+      // Event Listeners
+      filterTabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          filterTabs.forEach(function (btn) {
+            btn.classList.remove("active");
+            btn.setAttribute("aria-selected", "false");
+          });
+          tab.classList.add("active");
+          tab.setAttribute("aria-selected", "true");
+          applyFilter(tab.dataset.filter || "all");
+        });
+      });
+
+      addonCheckboxes.forEach(function (cb) {
+        cb.addEventListener("change", function () {
+          renderSummary();
+          saveBookingState();
+        });
+      });
+
+      proceedBtn.addEventListener("click", function () {
+        saveBookingState();
+        window.location.href = "confirmation.html";
+      });
+
+      // Header "More" dropdown toggle
+      const moreDropdown = document.querySelector(".nav-dropdown");
+      const moreToggle = document.querySelector(".nav-dropdown-toggle");
+      if (moreDropdown && moreToggle) {
+        moreToggle.addEventListener("click", function (event) {
+          event.stopPropagation();
+          const isOpen = moreDropdown.classList.toggle("open");
+          moreToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+        document.addEventListener("click", function (event) {
+          if (!moreDropdown.contains(event.target)) {
+            moreDropdown.classList.remove("open");
+            moreToggle.setAttribute("aria-expanded", "false");
+          }
+        });
+      }
+
+      // Initialize
+      bookingState = loadBookingState();
+      restoreSavedAddons();
+      renderSummary();
+    })();
+  </script>
+</body>
+</html>
