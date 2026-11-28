@@ -31,7 +31,7 @@
       id: "monarch-gt-coupe",
       name: "Monarch GT Executive",
       category: "Luxury",
-      image: "car-luxury.jpg",
+      image: "pages/images/car-luxury-gt.jpg",
       rate: 145,
       cities: ["Islamabad", "Karachi"],
       seats: 4,
@@ -53,7 +53,7 @@
       id: "highland-touring-suv",
       name: "Highland Touring SUV",
       category: "SUV",
-      image: "car-suv.jpg",
+      image: "pages/images/car-suv-black.jpg",
       rate: 96,
       cities: ["Islamabad", "Rawalpindi", "Peshawar"],
       seats: 7,
@@ -75,12 +75,34 @@
       id: "civic-elegance-hybrid",
       name: "Civic Elegance Hybrid",
       category: "Sedan",
-      image: "hero-car.jpg",
-      rate: 52,
+      image: "pages/images/car-sedan-silver.jpg",
+      rate: 62,
       cities: ["Islamabad", "Lahore", "Rawalpindi"],
       seats: 5,
       transmission: "CVT Hybrid",
       mileage: "22 km/L"
+    },
+    {
+      id: "urban-glide-hatchback",
+      name: "Urban Glide Hatchback",
+      category: "Hatchback",
+      image: "pages/images/car-hatchback-teal.jpg",
+      rate: 44,
+      cities: ["Islamabad", "Lahore", "Rawalpindi"],
+      seats: 5,
+      transmission: "Automatic",
+      mileage: "23 km/L"
+    },
+    {
+      id: "swift-aero-hatch",
+      name: "Swift Aero Sport Hatch",
+      category: "Hatchback",
+      image: "pages/images/car-hatchback-white.jpg",
+      rate: 48,
+      cities: ["Islamabad", "Karachi", "Lahore"],
+      seats: 5,
+      transmission: "CVT Hybrid",
+      mileage: "24 km/L"
     }
   ];
 
