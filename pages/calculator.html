@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RentRide Trip Cost Estimator — Calculate rental rates, fuel consumption, and total trip cost across Sedan, SUV, Van, and Luxury vehicles.">
+  <title>Trip Cost Estimator | RentRide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="calculator.css">
+  <script src="calculator.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Global Dark Navy Header -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="../home.html" class="brand-logo" aria-label="RentRide Home">
+        <svg class="brand-icon" viewBox="0 0 44 28" width="38" height="24" fill="none" aria-hidden="true">
+          <path d="M5 17.5H3.5C2.67 17.5 2 16.83 2 16V14.2C2 13.5 2.45 12.88 3.12 12.66L6.5 11.5L10.8 6.4C11.55 5.5 12.66 5 13.83 5H27.4C28.75 5 30.02 5.66 30.8 6.76L34.5 12L39.6 13.2C40.99 13.53 42 14.77 42 16.2V17.5C42 18.33 41.33 19 40.5 19H37.5" stroke="#149688" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10.5 12H31.5" stroke="#149688" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M19 5.5V12" stroke="#149688" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12.5" cy="19" r="3.2" stroke="#149688" stroke-width="2.1"/>
+          <circle cx="33.5" cy="19" r="3.2" stroke="#149688" stroke-width="2.1"/>
+          <path d="M15.8 19H30.2" stroke="#149688" stroke-width="2.1" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-wordmark">Rent<span class="brand-ride">Ride</span></span>
+      </a>
+
+      <nav class="primary-nav" id="primaryNav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li>
+            <a class="nav-link" href="../home.html">
+              <svg class="nav-home-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 10.5L12 3l9 7.5"/>
+                <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>
+              </svg>
+              <span>Home</span>
+            </a>
+          </li>
+          <li><a class="nav-link" href="search.html">Fleet</a></li>
+          <li><a class="nav-link" href="../book.html">Booking</a></li>
+          <li><a class="nav-link" href="../home.html#trip-planner">Add-ons</a></li>
+          <li class="nav-more-item">
+            <button
+              type="button"
+              class="nav-more-btn is-active-parent"
+              id="moreNavBtn"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="moreNavMenu"
+            >
+              <span>More</span>
+              <svg class="nav-chevron-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <ul class="nav-dropdown-menu" id="moreNavMenu" hidden>
+              <li><a class="nav-dropdown-link" href="triplocator.html">Trip Locator</a></li>
+              <li><a class="nav-dropdown-link is-active" href="calculator.html" aria-current="page">Fare &amp; Fuel Estimator</a></li>
+              <li><a class="nav-dropdown-link" href="search.html">Fleet Search &amp; Filters</a></li>
+              <li><a class="nav-dropdown-link" href="../home.html#categories">Browse Categories</a></li>
+              <li><a class="nav-dropdown-link" href="../home.html#locations">Pickup Locations</a></li>
+              <li><a class="nav-dropdown-link" href="#support">24/7 Support</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-controls">
+        <button
+          type="button"
+          class="icon-btn"
+          id="favDrawerBtn"
+          aria-label="Open Favourite Rides and Favourite Cars"
+          aria-controls="favDrawer"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="icon-badge" id="favCountBadge">0</span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="accountModalBtn"
+          aria-label="View registered account profile"
+          aria-controls="accountModal"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span class="account-dot" id="accountStatusDot" hidden></span>
+        </button>
+
+        <a href="../book.html" class="btn-book-header">Book Now</a>
+
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-expanded="false"
+          aria-controls="primaryNav"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="calc-main">
+    <!-- Hero Banner -->
+    <section class="hero-banner" aria-labelledby="calc-hero-title">
+      <div class="container hero-banner-inner">
+        <span class="hero-eyebrow">Fare &amp; Fuel Estimator</span>
+        <h1 id="calc-hero-title" class="hero-banner-title">Trip Cost Estimator</h1>
+        <p class="hero-banner-subtitle">
+          Select your vehicle class, enter trip mileage and travel dates, and view a live breakdown of rental and fuel expenses.
+        </p>
+      </div>
+    </section>
+
+    <!-- Main Calculator Card -->
+    <section class="calc-workspace" aria-label="Trip cost calculator">
+      <div class="container">
+        <article class="calc-card">
+          <form id="costEstimatorForm" class="calc-form" novalidate>
+            <!-- Vehicle Type Selector -->
+            <div class="calc-section">
+              <div class="calc-section-head">
+                <h2 class="calc-section-title">Vehicle Type</h2>
+                <span class="calc-section-hint">Select a category to apply its daily rate, default MPG &amp; vehicle preview</span>
+              </div>
+
+              <div class="vehicle-type-grid" role="group" aria-label="Vehicle Type selector">
+                <button
+                  type="button"
+                  class="vehicle-type-card is-selected"
+                  data-vehicle-type="Sedan"
+                  data-daily-rate="58"
+                  data-default-mpg="32"
+                  aria-pressed="true"
+                >
+                  <div class="vt-media">
+                    <img src="images/car-sedan-silver.jpg" alt="Silver modern touring Sedan" class="vt-photo">
+                    <span class="vt-badge">32 MPG</span>
+                  </div>
+                  <div class="vt-body">
+                    <span class="vt-name">Sedan</span>
+                    <span class="vt-model">Civic Elegance Hybrid</span>
+                    <span class="vt-meta">$58/day &bull; 32 MPG</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  class="vehicle-type-card"
+                  data-vehicle-type="SUV"
+                  data-daily-rate="88"
+                  data-default-mpg="24"
+                  aria-pressed="false"
+                >
+                  <div class="vt-media">
+                    <img src="images/car-suv-black.jpg" alt="Gloss black AWD touring SUV" class="vt-photo">
+                    <span class="vt-badge">24 MPG</span>
+                  </div>
+                  <div class="vt-body">
+                    <span class="vt-name">SUV</span>
+                    <span class="vt-model">TrailBlaze AWD SUV</span>
+                    <span class="vt-meta">$88/day &bull; 24 MPG</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  class="vehicle-type-card"
+                  data-vehicle-type="Van"
+                  data-daily-rate="110"
+                  data-default-mpg="20"
+                  aria-pressed="false"
+                >
+                  <div class="vt-media">
+                    <img src="images/car-van.jpg" alt="Slate teal passenger touring Van" class="vt-photo">
+                    <span class="vt-badge">20 MPG</span>
+                  </div>
+                  <div class="vt-body">
+                    <span class="vt-name">Van</span>
+                    <span class="vt-model">Grand Voyager Van</span>
+                    <span class="vt-meta">$110/day &bull; 20 MPG</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  class="vehicle-type-card"
+                  data-vehicle-type="Luxury"
+                  data-daily-rate="145"
+                  data-default-mpg="22"
+                  aria-pressed="false"
+                >
+                  <div class="vt-media">
+                    <img src="images/car-luxury-gt.jpg" alt="Champagne gold Luxury GT coupe" class="vt-photo">
+                    <span class="vt-badge">22 MPG</span>
+                  </div>
+                  <div class="vt-body">
+                    <span class="vt-name">Luxury</span>
+                    <span class="vt-model">Monarch GT Executive</span>
+                    <span class="vt-meta">$145/day &bull; 22 MPG</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Trip Distance & Date Range -->
+            <div class="calc-grid-three">
+              <div class="form-field">
+                <label for="tripDistance" class="form-label">Trip Distance (miles)</label>
+                <input
+                  type="number"
+                  id="tripDistance"
+                  name="tripDistance"
+                  class="form-control"
+                  min="1"
+                  step="1"
+                  value="240"
+                  placeholder="Enter total miles"
+                  required
+                >
+                <p id="distanceError" class="field-error" role="alert" hidden></p>
+              </div>
+
+              <div class="form-field">
+                <label for="calcStartDate" class="form-label">Start Date</label>
+                <input type="date" id="calcStartDate" name="calcStartDate" class="form-control" required>
+              </div>
+
+              <div class="form-field">
+                <label for="calcEndDate" class="form-label">
+                  <span>End Date</span>
+                  <span class="days-pill" id="rentalDaysPill">3 Days</span>
+                </label>
+                <input type="date" id="calcEndDate" name="calcEndDate" class="form-control" required>
+              </div>
+            </div>
+            <p id="dateRangeError" class="field-error" role="alert" hidden></p>
+
+            <!-- Fuel Inputs Box -->
+            <div class="fuel-cost-box">
+              <div class="calc-section-head">
+                <h2 class="calc-section-title">Fuel Assumptions</h2>
+                <span class="calc-section-hint">Auto-filled by vehicle type &mdash; customize MPG or gas price anytime</span>
+              </div>
+
+              <div class="calc-grid-two">
+                <div class="form-field">
+                  <label for="avgMpg" class="form-label">Average MPG</label>
+                  <input
+                    type="number"
+                    id="avgMpg"
+                    name="avgMpg"
+                    class="form-control"
+                    min="1"
+                    step="0.5"
+                    value="32"
+                    required
+                  >
+                  <p id="mpgError" class="field-error" role="alert" hidden></p>
+                </div>
+
+                <div class="form-field">
+                  <label for="gasPrice" class="form-label">Current Gas Price ($/gallon)</label>
+                  <input
+                    type="number"
+                    id="gasPrice"
+                    name="gasPrice"
+                    class="form-control"
+                    min="0.1"
+                    step="0.01"
+                    value="3.65"
+                    required
+                  >
+                  <p id="gasPriceError" class="field-error" role="alert" hidden></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Primary Teal Full-Width Submit Button -->
+            <button type="submit" id="calculateCostBtn" class="btn btn-teal btn-full btn-lg">
+              Calculate Estimated Cost
+            </button>
+          </form>
+
+          <!-- Live Cost Breakdown Summary -->
+          <section id="resultsBreakdownPanel" class="results-breakdown" aria-labelledby="results-breakdown-heading" aria-live="polite">
+            <div class="summary-vehicle-banner">
+              <div class="summary-vehicle-photo-wrap">
+                <img
+                  id="summaryVehicleImg"
+                  src="images/car-sedan-silver.jpg"
+                  alt="Silver modern touring Sedan"
+                  class="summary-vehicle-photo"
+                >
+              </div>
+              <div class="summary-vehicle-details">
+                <span class="summary-eyebrow">Selected Vehicle Summary</span>
+                <h2 id="results-breakdown-heading" class="summary-vehicle-heading">
+                  <span id="summaryVehicleType">Sedan</span> &mdash; <span id="summaryVehicleModel">Civic Elegance Hybrid</span>
+                </h2>
+                <p class="summary-vehicle-specs" id="summaryVehicleSpecs">
+                  Default Rate: $58.00/day &bull; Default Efficiency: 32 MPG
+                </p>
+              </div>
+              <div class="summary-rate-pill" id="summaryRatePill">$58/day</div>
+            </div>
+
+            <div class="breakdown-grid">
+              <div class="breakdown-card">
+                <span class="breakdown-label">Estimated Fuel</span>
+                <p class="breakdown-line" id="estimatedFuelLine">Estimated Fuel: <strong>$27.38</strong></p>
+                <span class="breakdown-sub" id="fuelDetailsSub">7.50 gal @ $3.65/gal (32 MPG)</span>
+              </div>
+
+              <div class="breakdown-card">
+                <span class="breakdown-label">Estimated Rental</span>
+                <p class="breakdown-line" id="estimatedRentalLine">Estimated Rental: <strong>$174.00</strong></p>
+                <span class="breakdown-sub" id="rentalDetailsSub">Sedan &bull; 3 days &times; $58.00/day</span>
+              </div>
+
+              <div class="breakdown-card breakdown-total">
+                <span class="breakdown-label">Total Estimated Cost</span>
+                <p class="breakdown-line breakdown-total-line" id="totalEstimatedLine"><strong>Total Estimated Cost: $201.38</strong></p>
+                <span class="breakdown-sub" id="totalPerMileSub">Approx. $0.84/mile across 240 miles</span>
+              </div>
+            </div>
+
+            <!-- Amber Pricing Note + Link to Check Current Daily Rates -->
+            <div class="pricing-warning-box" role="note">
+              <span class="warning-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                  <line x1="12" y1="9" x2="12" y2="13"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </span>
+              <div class="warning-copy">
+                <p>
+                  <strong>Seasonal &amp; Local Pricing Note:</strong> Daily rental rates and fuel prices are estimates and may vary during peak travel seasons, holidays, and high-demand weekends.
+                </p>
+                <a href="search.html" class="fleet-rates-link">Check current daily rates &rarr;</a>
+              </div>
+            </div>
+          </section>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Dark Navy Footer -->
+  <footer class="site-footer" id="support">
+    <div class="container footer-columns">
+      <div class="footer-col footer-col-brand">
+        <h2 class="footer-brand-heading">BOOK SMARTER &ndash; TRAVEL BETTER</h2>
+        <p class="footer-brand-copy">
+          Transparent car rental policies, flexible bookings, and 24/7 roadside assistance.
+        </p>
+        <p class="footer-copyright">
+          &copy; <span id="currentYear">2026</span> RentRide. All rights reserved.
+        </p>
+      </div>
+
+      <div class="footer-col footer-col-links">
+        <h3 class="footer-col-heading">QUICK LINKS</h3>
+        <ul class="footer-links">
+          <li><a href="../home.html">Home</a></li>
+          <li><a href="../book.html">Booking</a></li>
+          <li><a href="../book.html#register-card-title">Account</a></li>
+          <li><a href="../home.html#trip-planner">Help</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-links">
+        <h3 class="footer-col-heading">RESOURCES</h3>
+        <ul class="footer-links">
+          <li><a href="#support">Support</a></li>
+          <li><a href="mailto:support@rentride.example">Contact us</a></li>
+          <li><a href="#support">Privacy Policy</a></li>
+          <li><a href="#support">Terms of service</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Backdrop -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+
+  <!-- Favourites Drawer -->
+  <aside
+    class="fav-drawer"
+    id="favDrawer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="favDrawerTitle"
+    hidden
+  >
+    <div class="drawer-header">
+      <h2 id="favDrawerTitle" class="drawer-title">Favourite Rides &amp; Favourite Cars</h2>
+      <button type="button" class="drawer-close" id="closeFavDrawer" aria-label="Close Favourites drawer">&times;</button>
+    </div>
+
+    <div class="drawer-body">
+      <section class="drawer-section">
+        <div class="drawer-section-head">
+          <h3>Favourite Cars</h3>
+          <button type="button" class="text-btn" id="clearFavCarsBtn">Clear</button>
+        </div>
+        <div id="favCarsList" class="fav-list"></div>
+      </section>
+
+      <section class="drawer-section">
+        <div class="drawer-section-head">
+          <h3>Favourite Rides</h3>
+          <button type="button" class="text-btn" id="clearFavRidesBtn">Clear</button>
+        </div>
+        <div id="favRidesList" class="fav-list"></div>
+      </section>
+    </div>
+  </aside>
+
+  <!-- User Account Profile Modal -->
+  <div
+    class="account-modal"
+    id="accountModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="accountModalTitle"
+    hidden
+  >
+    <div class="account-modal-head">
+      <h2 id="accountModalTitle" class="drawer-title">Account Profile</h2>
+      <button type="button" class="drawer-close" id="closeAccountModal" aria-label="Close Account profile">&times;</button>
+    </div>
+    <div id="accountModalBody" class="account-modal-body"></div>
+  </div>
+</body>
+</html>

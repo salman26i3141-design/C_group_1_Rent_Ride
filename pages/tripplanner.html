@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RentRide Trip &amp; Road-Trip Planner — Map waypoints, add custom stops, persist your itinerary, and optimize your route.">
+  <title>Trip &amp; Road-Trip Planner | RentRide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tripplanner.css">
+  <script src="tripplanner.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <!-- Global Dark Navy Header -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="../home.html" class="brand-logo" aria-label="RentRide Home">
+        <svg class="brand-icon" viewBox="0 0 44 28" width="38" height="24" fill="none" aria-hidden="true">
+          <path d="M5 17.5H3.5C2.67 17.5 2 16.83 2 16V14.2C2 13.5 2.45 12.88 3.12 12.66L6.5 11.5L10.8 6.4C11.55 5.5 12.66 5 13.83 5H27.4C28.75 5 30.02 5.66 30.8 6.76L34.5 12L39.6 13.2C40.99 13.53 42 14.77 42 16.2V17.5C42 18.33 41.33 19 40.5 19H37.5" stroke="#149688" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10.5 12H31.5" stroke="#149688" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M19 5.5V12" stroke="#149688" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12.5" cy="19" r="3.2" stroke="#149688" stroke-width="2.1"/>
+          <circle cx="33.5" cy="19" r="3.2" stroke="#149688" stroke-width="2.1"/>
+          <path d="M15.8 19H30.2" stroke="#149688" stroke-width="2.1" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-wordmark">Rent<span class="brand-ride">Ride</span></span>
+      </a>
+
+      <nav class="primary-nav" id="primaryNav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li>
+            <a class="nav-link" href="../home.html">
+              <svg class="nav-home-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 10.5L12 3l9 7.5"/>
+                <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>
+              </svg>
+              <span>Home</span>
+            </a>
+          </li>
+          <li><a class="nav-link" href="search.html">Fleet</a></li>
+          <li><a class="nav-link" href="../book.html">Booking</a></li>
+          <li><a class="nav-link" href="../home.html#trip-planner">Add-ons</a></li>
+          <li class="nav-more-item">
+            <button
+              type="button"
+              class="nav-more-btn is-active-parent"
+              id="moreNavBtn"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="moreNavMenu"
+            >
+              <span>More</span>
+              <svg class="nav-chevron-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <ul class="nav-dropdown-menu" id="moreNavMenu" hidden>
+              <li><a class="nav-dropdown-link is-active" href="triplocator.html">Trip Locator</a></li>
+              <li><a class="nav-dropdown-link" href="calculator.html">Fare &amp; Fuel Estimator</a></li>
+              <li><a class="nav-dropdown-link" href="search.html">Fleet Search &amp; Filters</a></li>
+              <li><a class="nav-dropdown-link" href="../home.html#categories">Browse Categories</a></li>
+              <li><a class="nav-dropdown-link" href="../home.html#locations">Pickup Locations</a></li>
+              <li><a class="nav-dropdown-link" href="#support">24/7 Support</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-controls">
+        <button
+          type="button"
+          class="icon-btn"
+          id="favDrawerBtn"
+          aria-label="Open Favourite Rides and Favourite Cars"
+          aria-controls="favDrawer"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          <span class="icon-badge" id="favCountBadge">0</span>
+        </button>
+
+        <button
+          type="button"
+          class="icon-btn"
+          id="accountModalBtn"
+          aria-label="View registered account profile"
+          aria-controls="accountModal"
+          aria-expanded="false"
+        >
+          <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span class="account-dot" id="accountStatusDot" hidden></span>
+        </button>
+
+        <a href="../book.html" class="btn-book-header">Book Now</a>
+
+        <button
+          type="button"
+          class="nav-toggle"
+          id="navToggle"
+          aria-expanded="false"
+          aria-controls="primaryNav"
+          aria-label="Toggle navigation menu"
+        >
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+          <span class="nav-toggle-bar" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="planner-main">
+    <!-- Hero Banner -->
+    <section class="hero-banner" aria-labelledby="planner-hero-title">
+      <div class="container hero-banner-inner">
+        <span class="hero-eyebrow">Interactive Route &amp; Stop Builder</span>
+        <h1 id="planner-hero-title" class="hero-banner-title">Road Trip Planner: Your Adventure Awaits</h1>
+        <p class="hero-banner-subtitle">
+          Plot your origin, destination, and custom stops on the route map, then optimize your journey for distance and drive time.
+        </p>
+      </div>
+    </section>
+
+    <!-- Interactive Route Map Card & Overlapping Itinerary Builder -->
+    <section class="planner-workspace" aria-label="Route map and itinerary builder">
+      <div class="container planner-stack">
+        <!-- Interactive Route Map Card -->
+        <article class="map-card" aria-labelledby="map-card-label">
+          <h2 id="map-card-label" class="visually-hidden">Interactive Route Map</h2>
+
+          <!-- Top-Left Route Summary Bar -->
+          <div class="map-summary-bar" id="mapSummaryBar" aria-live="polite">
+            <div class="summary-vehicle-row">
+              <div class="summary-thumb-wrap">
+                <img
+                  id="mapSummaryVehicleImg"
+                  src="images/car-sedan-silver.jpg"
+                  alt="Silver modern touring Sedan"
+                  class="summary-vehicle-thumb"
+                >
+              </div>
+              <div class="summary-vehicle-meta">
+                <span class="summary-vehicle-type" id="mapSummaryVehicleType">Sedan &bull; $58/day</span>
+                <div class="summary-route-line">
+                  <span id="mapSummaryRoute" class="summary-route-text">Islamabad &rarr; Naran Valley</span>
+                </div>
+              </div>
+            </div>
+            <div class="summary-metrics-row">
+              <span class="summary-pill"><strong id="mapSummaryDistance">240 mi</strong></span>
+              <span class="summary-pill"><strong id="mapSummaryTime">4h 37m</strong></span>
+              <span class="summary-pill" id="mapSummaryStops">2 stops</span>
+            </div>
+          </div>
+
+          <!-- Interactive Map Vehicle Preview Card (Bottom-Right) -->
+          <div class="map-vehicle-preview" id="mapVehiclePreview" aria-live="polite">
+            <div class="map-preview-media">
+              <span class="map-preview-badge" id="mapPreviewBadge">Sedan</span>
+              <img
+                id="mapPreviewImg"
+                src="images/car-sedan-silver.jpg"
+                alt="Silver modern touring Sedan"
+                class="map-preview-img"
+              >
+            </div>
+            <div class="map-preview-info">
+              <p class="map-preview-model" id="mapPreviewModel">Civic Elegance Hybrid</p>
+              <p class="map-preview-specs" id="mapPreviewSpecs">5 Seats &bull; 32 MPG &bull; $58/day</p>
+            </div>
+          </div>
+
+          <!-- Top-Right Zoom Controls (+/-) -->
+          <div class="map-zoom-controls" role="group" aria-label="Map zoom controls">
+            <button type="button" class="zoom-btn" id="zoomInBtn" aria-label="Zoom in map" title="Zoom in">+</button>
+            <span class="zoom-level-label" id="zoomLevelLabel" aria-live="polite">100%</span>
+            <button type="button" class="zoom-btn" id="zoomOutBtn" aria-label="Zoom out map" title="Zoom out">&minus;</button>
+            <button type="button" class="zoom-btn zoom-reset-btn" id="zoomResetBtn" aria-label="Reset map zoom" title="Reset zoom">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/>
+                <polyline points="3 3 3 8 8 8"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Map Legend -->
+          <div class="map-legend" aria-hidden="true">
+            <span class="legend-item"><i class="legend-swatch legend-start"></i>Start</span>
+            <span class="legend-item"><i class="legend-swatch legend-stop"></i>Stop</span>
+            <span class="legend-item"><i class="legend-swatch legend-end"></i>Destination</span>
+          </div>
+
+          <!-- Interactive SVG Route Map Viewport -->
+          <div class="map-viewport" id="mapViewport">
+            <div class="map-canvas" id="mapCanvas">
+              <svg id="routeMapSvg" class="route-map-svg" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Visual route map with start, waypoint stops, and end destination pins">
+                <defs>
+                  <pattern id="mapGridPattern" width="50" height="50" patternUnits="userSpaceOnUse">
+                    <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#DCE5F0" stroke-width="1"/>
+                  </pattern>
+                  <linearGradient id="routeLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#149688"/>
+                    <stop offset="100%" stop-color="#0B1522"/>
+                  </linearGradient>
+                </defs>
+
+                <!-- Terrain & Highway Backdrop -->
+                <rect width="1000" height="420" fill="#EDF2F7"/>
+                <rect width="1000" height="420" fill="url(#mapGridPattern)"/>
+
+                <!-- Decorative Topographic & Park Regions -->
+                <path d="M 0 320 Q 190 270 360 330 T 720 300 T 1000 340 L 1000 420 L 0 420 Z" fill="#E1ECEA" opacity="0.7"/>
+                <path d="M 110 60 Q 220 20 340 75 T 560 55 T 880 90 L 880 0 L 110 0 Z" fill="#E4EBF4" opacity="0.75"/>
+                <path d="M 40 240 C 180 180, 320 290, 480 210 C 640 130, 780 250, 960 175" fill="none" stroke="#D5E0EC" stroke-width="10" stroke-linecap="round"/>
+                <path d="M 90 125 C 260 140, 410 90, 590 145 C 740 190, 860 110, 965 130" fill="none" stroke="#D5E0EC" stroke-width="6" stroke-linecap="round"/>
+
+                <!-- Dynamic Route Path & Waypoints Layer -->
+                <g id="mapRouteLayer"></g>
+                <g id="mapPinsLayer"></g>
+              </svg>
+            </div>
+
+            <!-- Interactive Pin Tooltip -->
+            <div class="map-pin-tooltip" id="mapPinTooltip" hidden role="status"></div>
+          </div>
+        </article>
+
+        <!-- Itinerary Builder White Card (Overlapping Map Card) -->
+        <article class="itinerary-card" aria-labelledby="itinerary-heading">
+          <div class="itinerary-card-head">
+            <div>
+              <span class="section-eyebrow">Route Details &amp; Waypoints</span>
+              <h2 id="itinerary-heading" class="itinerary-title">Itinerary Builder</h2>
+            </div>
+            <div class="itinerary-head-actions">
+              <span class="saved-indicator" id="savedIndicator" aria-live="polite">Saved locally</span>
+              <button type="button" class="btn-reset-text" id="resetItineraryBtn">Reset Trip</button>
+            </div>
+          </div>
+
+          <form id="itineraryForm" class="itinerary-form" novalidate>
+            <!-- Vehicle Type Selector -->
+            <div class="vehicle-selector-section">
+              <div class="vehicle-selector-head">
+                <span class="form-label">Select Vehicle Type</span>
+                <span class="vehicle-selector-hint">Updates your route map preview &amp; trip capacity</span>
+              </div>
+              <div class="planner-vehicle-grid" id="vehicleTypeGrid" role="group" aria-label="Select vehicle type">
+                <button type="button" class="planner-vehicle-card is-selected" data-vehicle-type="Sedan" aria-pressed="true">
+                  <div class="pv-thumb-wrap">
+                    <img src="images/car-sedan-silver.jpg" alt="Silver modern touring Sedan" class="pv-thumb">
+                  </div>
+                  <div class="pv-body">
+                    <span class="pv-title">Sedan</span>
+                    <span class="pv-meta">5 Seats &bull; $58/day</span>
+                  </div>
+                </button>
+
+                <button type="button" class="planner-vehicle-card" data-vehicle-type="SUV" aria-pressed="false">
+                  <div class="pv-thumb-wrap">
+                    <img src="images/car-suv-black.jpg" alt="Gloss black AWD touring SUV" class="pv-thumb">
+                  </div>
+                  <div class="pv-body">
+                    <span class="pv-title">SUV</span>
+                    <span class="pv-meta">7 Seats &bull; $88/day</span>
+                  </div>
+                </button>
+
+                <button type="button" class="planner-vehicle-card" data-vehicle-type="Van" aria-pressed="false">
+                  <div class="pv-thumb-wrap">
+                    <img src="images/car-van.jpg" alt="Slate teal passenger touring Van" class="pv-thumb">
+                  </div>
+                  <div class="pv-body">
+                    <span class="pv-title">Van</span>
+                    <span class="pv-meta">8 Seats &bull; $110/day</span>
+                  </div>
+                </button>
+
+                <button type="button" class="planner-vehicle-card" data-vehicle-type="Luxury" aria-pressed="false">
+                  <div class="pv-thumb-wrap">
+                    <img src="images/car-luxury-gt.jpg" alt="Champagne gold Luxury GT coupe" class="pv-thumb">
+                  </div>
+                  <div class="pv-body">
+                    <span class="pv-title">Luxury</span>
+                    <span class="pv-meta">4 Seats &bull; $145/day</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            <!-- Dates Row -->
+            <div class="form-row-two">
+              <div class="form-field">
+                <label for="tripStartDate" class="form-label">Start Date</label>
+                <input type="date" id="tripStartDate" name="tripStartDate" class="form-control" required>
+              </div>
+              <div class="form-field">
+                <label for="tripEndDate" class="form-label">
+                  <span>End Date</span>
+                  <span class="duration-chip" id="tripDurationChip">4 Days</span>
+                </label>
+                <input type="date" id="tripEndDate" name="tripEndDate" class="form-control" required>
+              </div>
+            </div>
+            <p id="dateValidationError" class="field-error" role="alert" hidden></p>
+
+            <!-- Start & End Locations Row -->
+            <div class="form-row-two">
+              <div class="form-field">
+                <label for="startLocation" class="form-label">Start Location</label>
+                <div class="input-with-action">
+                  <input
+                    type="text"
+                    id="startLocation"
+                    name="startLocation"
+                    class="form-control"
+                    list="popularLocations"
+                    placeholder="e.g., Islamabad Hub"
+                    required
+                  >
+                  <button
+                    type="button"
+                    id="myLocationBtn"
+                    class="btn-pin-fill"
+                    title="Fill with my current location"
+                    aria-label="Use My Location"
+                  >
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                      <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    <span>My Location</span>
+                  </button>
+                </div>
+                <p id="locationHint" class="field-hint" aria-live="polite"></p>
+              </div>
+
+              <div class="form-field">
+                <label for="endLocation" class="form-label">End Location</label>
+                <input
+                  type="text"
+                  id="endLocation"
+                  name="endLocation"
+                  class="form-control"
+                  list="popularLocations"
+                  placeholder="e.g., Naran Valley"
+                  required
+                >
+              </div>
+            </div>
+            <p id="locationValidationError" class="field-error" role="alert" hidden></p>
+
+            <datalist id="popularLocations">
+              <option value="Islamabad Hub">
+              <option value="Lahore City Center">
+              <option value="Karachi Clifton Hub">
+              <option value="Murree Hills">
+              <option value="Naran Valley">
+              <option value="Swat Kalam">
+              <option value="Hunza Karimabad">
+              <option value="Skardu Valley">
+              <option value="Rawalpindi Saddar">
+              <option value="Peshawar Ring Road">
+            </datalist>
+
+            <!-- Stops Section -->
+            <section class="stops-section" aria-labelledby="stops-heading">
+              <div class="stops-header">
+                <div>
+                  <h3 id="stops-heading" class="stops-title">Stops</h3>
+                  <p class="stops-subtitle">Add scenic overlooks, hotels, or custom stops, adjust distances, and reorder your route.</p>
+                </div>
+                <div class="final-leg-box">
+                  <label for="finalLegDistance" class="form-label-sm">Final Leg to Destination (mi)</label>
+                  <input type="number" id="finalLegDistance" class="form-control form-control-sm" min="1" max="3000" step="1" value="85">
+                </div>
+              </div>
+
+              <!-- Dynamic Stops List -->
+              <ul id="stopsList" class="stops-list" aria-live="polite"></ul>
+
+              <!-- Quick Suggestion Chips -->
+              <div class="quick-stops-row" aria-label="Quick add common stops">
+                <span class="quick-stops-label">Quick add:</span>
+                <button type="button" class="quick-stop-chip" data-quick-name="Scenic Mountain Overlook" data-quick-type="Scenic View" data-quick-dist="45">+ Scenic View (45 mi)</button>
+                <button type="button" class="quick-stop-chip" data-quick-name="Lakeside Boutique Hotel" data-quick-type="Hotel" data-quick-dist="75">+ Hotel Stop (75 mi)</button>
+                <button type="button" class="quick-stop-chip" data-quick-name="Highway Fuel &amp; Rest Plaza" data-quick-type="Rest &amp; Fuel" data-quick-dist="35">+ Fuel &amp; Rest (35 mi)</button>
+              </div>
+
+              <!-- Add Custom Stop Row -->
+              <div class="add-stop-bar">
+                <div class="form-field add-stop-name">
+                  <label for="newStopName" class="form-label-sm">Custom Stop Name</label>
+                  <input type="text" id="newStopName" class="form-control" placeholder="e.g., Abbotabad Pine Viewpoint">
+                </div>
+
+                <div class="form-field add-stop-type">
+                  <label for="newStopType" class="form-label-sm">Category</label>
+                  <select id="newStopType" class="form-control">
+                    <option value="Scenic View">Scenic View</option>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Rest &amp; Fuel">Rest &amp; Fuel</option>
+                    <option value="Custom">Custom</option>
+                  </select>
+                </div>
+
+                <div class="form-field add-stop-dist">
+                  <label for="newStopDistance" class="form-label-sm">Leg Distance (mi)</label>
+                  <input type="number" id="newStopDistance" class="form-control" min="1" max="3000" step="1" value="55">
+                </div>
+
+                <button type="button" id="addStopBtn" class="btn btn-secondary add-stop-btn">+ Add Custom Stop</button>
+              </div>
+              <p id="stopValidationError" class="field-error" role="alert" hidden></p>
+            </section>
+
+            <!-- Primary Teal Full-Width Optimize Route Button -->
+            <button type="submit" id="optimizeRouteBtn" class="btn btn-teal btn-full btn-lg">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+              </svg>
+              <span>Optimize Route</span>
+            </button>
+          </form>
+
+          <!-- Interactive Optimized Itinerary Summary -->
+          <section id="optimizedSummaryPanel" class="optimized-summary" aria-labelledby="optimized-summary-title" hidden>
+            <div class="optimized-head">
+              <div>
+                <span class="optimized-badge">Route Optimized</span>
+                <h3 id="optimized-summary-title" class="optimized-title">Interactive Itinerary Summary</h3>
+              </div>
+              <a href="calculate.html" id="estimateTripCostLink" class="btn btn-outline-teal">Estimate Fuel &amp; Fare &rarr;</a>
+            </div>
+
+            <div class="optimized-stats-grid">
+              <div class="stat-box">
+                <span class="stat-label">Total Distance</span>
+                <strong class="stat-value" id="summaryTotalDistance">0 mi</strong>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">Est. Driving Time</span>
+                <strong class="stat-value" id="summaryDriveTime">0h 0m</strong>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">Planned Stops</span>
+                <strong class="stat-value" id="summaryStopCount">0 Stops</strong>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">Daily Pace</span>
+                <strong class="stat-value" id="summaryDailyPace">0 mi/day</strong>
+              </div>
+            </div>
+
+            <ol id="itineraryTimeline" class="itinerary-timeline"></ol>
+          </section>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- Global Dark Navy Footer -->
+  <footer class="site-footer" id="support">
+    <div class="container footer-columns">
+      <div class="footer-col footer-col-brand">
+        <h2 class="footer-brand-heading">BOOK SMARTER &ndash; TRAVEL BETTER</h2>
+        <p class="footer-brand-copy">
+          Transparent car rental policies, flexible bookings, and 24/7 roadside assistance.
+        </p>
+        <p class="footer-copyright">
+          &copy; <span id="currentYear">2026</span> RentRide. All rights reserved.
+        </p>
+      </div>
+
+      <div class="footer-col footer-col-links">
+        <h3 class="footer-col-heading">QUICK LINKS</h3>
+        <ul class="footer-links">
+          <li><a href="../home.html">Home</a></li>
+          <li><a href="../book.html">Booking</a></li>
+          <li><a href="../book.html#register-card-title">Account</a></li>
+          <li><a href="../home.html#trip-planner">Help</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-links">
+        <h3 class="footer-col-heading">RESOURCES</h3>
+        <ul class="footer-links">
+          <li><a href="#support">Support</a></li>
+          <li><a href="mailto:support@rentride.example">Contact us</a></li>
+          <li><a href="#support">Privacy Policy</a></li>
+          <li><a href="#support">Terms of service</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Backdrop -->
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+
+  <!-- Favourites Drawer -->
+  <aside
+    class="fav-drawer"
+    id="favDrawer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="favDrawerTitle"
+    hidden
+  >
+    <div class="drawer-header">
+      <h2 id="favDrawerTitle" class="drawer-title">Favourite Rides &amp; Favourite Cars</h2>
+      <button type="button" class="drawer-close" id="closeFavDrawer" aria-label="Close Favourites drawer">&times;</button>
+    </div>
+
+    <div class="drawer-body">
+      <section class="drawer-section">
+        <div class="drawer-section-head">
+          <h3>Favourite Cars</h3>
+          <button type="button" class="text-btn" id="clearFavCarsBtn">Clear</button>
+        </div>
+        <div id="favCarsList" class="fav-list"></div>
+      </section>
+
+      <section class="drawer-section">
+        <div class="drawer-section-head">
+          <h3>Favourite Rides</h3>
+          <button type="button" class="text-btn" id="clearFavRidesBtn">Clear</button>
+        </div>
+        <div id="favRidesList" class="fav-list"></div>
+      </section>
+    </div>
+  </aside>
+
+  <!-- User Account Profile Modal -->
+  <div
+    class="account-modal"
+    id="accountModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="accountModalTitle"
+    hidden
+  >
+    <div class="account-modal-head">
+      <h2 id="accountModalTitle" class="drawer-title">Account Profile</h2>
+      <button type="button" class="drawer-close" id="closeAccountModal" aria-label="Close Account profile">&times;</button>
+    </div>
+    <div id="accountModalBody" class="account-modal-body"></div>
+  </div>
+</body>
+</html>

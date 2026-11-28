@@ -239,6 +239,26 @@ button {
   position: relative;
 }
 
+.nav-more-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 0.75rem;
+}
+
+@media (min-width: 921px) {
+  .nav-more-item:hover > .nav-dropdown-menu,
+  .nav-more-item:focus-within > .nav-dropdown-menu {
+    display: block;
+  }
+
+  .nav-more-item:hover > .nav-more-btn .nav-chevron-icon {
+    transform: rotate(180deg);
+  }
+}
+
 .nav-more-btn {
   display: inline-flex;
   align-items: center;
